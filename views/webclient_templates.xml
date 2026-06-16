@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="web_layout_theme_studio" inherit_id="web.layout">
+        <xpath expr="//head" position="inside">
+            <link rel="stylesheet" type="text/css" href="/theme_studio/style.css" id="theme_studio_styles"/>
+        </xpath>
+    </template>
+</odoo>

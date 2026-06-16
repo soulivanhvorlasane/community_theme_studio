@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="community_theme_studio.ThemeStudioPanel">
+        <div t-attf-class="o_theme_studio_panel position-fixed top-0 bottom-0 end-0 d-flex flex-column {{ tsState.isOpen ? 'open' : 'closed' }}">
+            
+            <t t-if="tsState.isOpen">
+                <!-- Header -->
+                <div class="ts-header d-flex justify-content-between align-items-center p-2">
+                    <button class="ts-btn-icon" t-on-click="onReset" title="Reset">
+                        <i class="fa fa-undo"/>
+                    </button>
+                    <div class="ts-header-actions d-flex gap-3 align-items-center">
+                        <span class="ts-text-btn cursor-pointer" t-on-click="onClose">Close</span>
+                        <button class="ts-btn-save" t-on-click="onSave">Save</button>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <div class="ts-tabs d-flex justify-content-between">
+                    <button class="ts-tab flex-grow-1 text-center" t-att-class="state.activeTab === 'style' ? 'active' : ''" t-on-click="() => this.setTab('style')">
+                        <i class="fa fa-paint-brush me-1"/> Style
+                    </button>
+                    <button class="ts-tab flex-grow-1 text-center" t-att-class="state.activeTab === 'theme' ? 'active' : ''" t-on-click="() => this.setTab('theme')">
+                        <i class="fa fa-sun-o me-1"/> Theme
+                    </button>
+                </div>
+
+                <!-- Body -->
+                <div class="ts-body flex-grow-1 overflow-auto">
+                    
+                    <t t-if="state.activeTab === 'style'">
+                        <!-- Main Colors -->
+                        <div class="ts-sb-section">
+                            <div class="ts-sb-section-header position-relative">
+                                <i class="fa fa-adjust"/> Main Colors
+                                <i class="fa fa-paint-brush ms-auto cursor-pointer" t-on-click.stop="togglePalette" title="Theme Palettes"/>
+                                
+                                <!-- Palette Popover -->
+                                <t t-if="state.isPaletteOpen">
+                                    <div class="ts-palette-popover position-absolute" t-on-click.stop="">
+                                        <t t-foreach="palettes" t-as="p" t-key="p.id">
+                                            <div class="ts-palette-pill" t-on-click="() => this.onPaletteSelect(p)">
+                                                <div class="ts-color-segment" t-attf-style="background-color: {{p.c1}};"></div>
+                                                <div class="ts-color-segment" t-attf-style="background-color: {{p.c2}};"></div>
+                                                <div class="ts-color-segment" t-attf-style="background-color: {{p.c3}};"></div>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+                            </div>
+
+                            <div class="ts-sb-section-body">
+                                <div class="ts-sb-row">
+                                    <label>BG Image</label>
+                                    <select class="ts-sb-dropdown">
+                                        <option>Select</option>
+                                    </select>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Main</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="color" t-model="tsState.primaryColor" class="ts-color-input"/>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Text</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="color" t-model="tsState.textColor" class="ts-color-input"/>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Text Status</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="color" t-model="tsState.textStatusColor" class="ts-color-input"/>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Status Color</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="color" t-model="tsState.statusColor" class="ts-color-input"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Paragraph -->
+                        <div class="ts-sb-section">
+                            <div class="ts-sb-section-header">
+                                <i class="fa fa-paragraph"/> Paragraph
+                            </div>
+                            <div class="ts-sb-section-body">
+                                <div class="ts-sb-row">
+                                    <label>Font Size</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.pFontSize"/>
+                                        <span class="ts-sb-unit">rem</span>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Spacing</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.pSpacing"/>
+                                        <span class="ts-sb-unit">px</span>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Font Family</label>
+                                    <select class="ts-sb-dropdown">
+                                        <option>System Fonts</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navbar -->
+                        <div class="ts-sb-section">
+                            <div class="ts-sb-section-header">
+                                <i class="fa fa-minus"/> Navbar
+                            </div>
+                            <div class="ts-sb-section-body">
+                                <div class="ts-sb-row">
+                                    <label>Colors</label>
+                                    <div class="ts-sb-swatches">
+                                        <div class="ts-sb-swatch" style="background-color: #ffffff;"></div>
+                                        <div class="ts-sb-swatch" style="background-color: #1f2937;"></div>
+                                        <div class="ts-sb-swatch" style="background-color: #ffffff;"></div>
+                                        <div class="ts-sb-swatch" style="background-color: #714B67;"></div>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Height</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.navHeight"/>
+                                        <span class="ts-sb-unit">px</span>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Font Size</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.navFontSize"/>
+                                        <span class="ts-sb-unit">rem</span>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Margin H</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.navMarginH"/>
+                                        <span class="ts-sb-unit">px</span>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Padding H</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.navPaddingH"/>
+                                        <span class="ts-sb-unit">em</span>
+                                    </div>
+                                </div>
+                                <div class="ts-sb-row">
+                                    <label>Border Rad...</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.navBorderRad"/>
+                                        <span class="ts-sb-unit">px</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form -->
+                        <div class="ts-sb-section">
+                            <div class="ts-sb-section-header">
+                                <i class="fa fa-list-alt"/> Form
+                            </div>
+                            <div class="ts-sb-section-body">
+                                <div class="ts-sb-row">
+                                    <label>Spacing</label>
+                                    <div class="ts-sb-input-wrapper">
+                                        <input type="text" class="ts-sb-input" t-att-value="tsState.formSpacing"/>
+                                        <span class="ts-sb-unit">px</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Table -->
+                        <div class="ts-sb-section">
+                            <div class="ts-sb-section-header border-0">
+                                <i class="fa fa-table"/> Table
+                            </div>
+                        </div>
+
+                    </t>
+
+                    <t t-if="state.activeTab === 'theme'">
+                        <!-- Theme Settings -->
+                        <div class="p-2">
+                            <div class="ts-section mb-3">
+                                <div class="ts-section-header">
+                                    <i class="fa fa-cogs"/> Settings
+                                </div>
+                                <div class="ts-section-body">
+                                    <div class="ts-field">
+                                        <label>Primary Color</label>
+                                        <input type="color" class="ts-color-picker" t-att-value="tsState.primaryColor" t-on-input="onPrimaryChange"/>
+                                    </div>
+                                    <div class="ts-field">
+                                        <label>Secondary Color</label>
+                                        <input type="color" class="ts-color-picker" t-att-value="tsState.secondaryColor" t-on-input="onSecondaryChange"/>
+                                    </div>
+                                    <div class="ts-field ts-field-switch">
+                                        <label>Dark Mode</label>
+                                        <div class="form-check form-switch m-0">
+                                            <input class="form-check-input" type="checkbox" t-att-checked="tsState.darkMode" t-on-change="onDarkModeChange"/>
+                                        </div>
+                                    </div>
+                                    <div class="ts-field ts-field-switch">
+                                        <label>Glassmorphism Navbar</label>
+                                        <div class="form-check form-switch m-0">
+                                            <input class="form-check-input" type="checkbox" t-att-checked="tsState.glassmorphism" t-on-change="onGlassmorphismChange"/>
+                                        </div>
+                                    </div>
+                                    <div class="ts-field-stack mt-3">
+                                        <label>Background Darken Opacity</label>
+                                        <input type="range" class="form-range" min="0" max="1" step="0.1" t-att-value="tsState.overlayOpacity" t-on-input="onOverlayOpacityChange"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Background -->
+                            <div class="ts-section mb-3">
+                                <div class="ts-section-header">
+                                    <i class="fa fa-image"/> Background Image
+                                </div>
+                                <div class="ts-section-body">
+                                    <div t-if="tsState.bgImage" class="ts-image-preview position-relative mb-2 rounded overflow-hidden" style="height: 120px;">
+                                        <img t-attf-src="data:image/png;base64,{{tsState.bgImage}}" class="w-100 h-100" style="object-fit: cover;"/>
+                                        <button class="ts-btn-icon position-absolute top-0 end-0 m-1 bg-dark bg-opacity-50 text-white border-0 rounded" t-on-click="onClearImage">
+                                            <i class="fa fa-trash"/>
+                                        </button>
+                                    </div>
+                                    <input type="file" class="form-control form-control-sm ts-input-file" accept="image/*" t-on-change="onImageUpload"/>
+                                </div>
+                            </div>
+
+                            <!-- Presets -->
+                            <div class="ts-section mb-3">
+                                <div class="ts-section-header">
+                                    <i class="fa fa-magic"/> Presets
+                                </div>
+                                <div class="ts-section-body">
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('ocean')">Ocean</button>
+                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('forest')">Forest</button>
+                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('cyberpunk')">Cyberpunk</button>
+                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('minimal')">Minimal</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Favicon -->
+                            <div class="ts-section mb-3">
+                                <div class="ts-section-header">
+                                    <i class="fa fa-picture-o"/> Favicon file .ico
+                                </div>
+                                <div class="ts-section-body">
+                                    <div class="d-flex gap-2 align-items-center mb-2">
+                                        <div t-if="tsState.favicon" class="ts-image-preview position-relative rounded overflow-hidden" style="width: 32px; height: 32px; flex-shrink: 0;">
+                                            <img t-attf-src="data:image/x-icon;base64,{{tsState.favicon}}" class="w-100 h-100" style="object-fit: contain;"/>
+                                        </div>
+                                        <div t-else="" class="ts-image-preview bg-dark rounded d-flex justify-content-center align-items-center" style="width: 32px; height: 32px; flex-shrink: 0;">
+                                            <i class="fa fa-globe text-muted"/>
+                                        </div>
+                                        <input type="file" class="form-control form-control-sm ts-input-file" accept=".ico,.png" t-on-change="onFaviconUpload"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    
+                </div>
+            </t>
+        </div>
+    </t>
+</templates>

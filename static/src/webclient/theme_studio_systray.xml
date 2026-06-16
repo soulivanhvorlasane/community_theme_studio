@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="community_theme_studio.ThemeStudioSystray">
+        <div class="o_ThemeStudio_systray_item" t-on-click="onClick">
+            <a class="dropdown-toggle o-no-caret" href="#" role="button" title="Theme Studio">
+                <i class="fa fa-paint-brush fs-4"/>
+            </a>
+        </div>
+    </t>
+</templates>
