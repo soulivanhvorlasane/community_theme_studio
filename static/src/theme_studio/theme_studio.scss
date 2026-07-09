@@ -364,89 +364,20 @@
     z-index: 9999 !important;
 }
 
-/* Custom Dark Mode Rules */
-body.o_dark_mode {
-  background-color: #121212 !important;
-  color: #e0e0e0 !important;
-}
-body.o_dark_mode .o_main_navbar {
-  background-color: #1f1f1f !important;
-}
-body.o_dark_mode .card {
-  background-color: #2a2a2a !important;
-  border-color: #444 !important;
-}
-
-/* List View */
-body.o_dark_mode .o_list_view {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-}
-body.o_dark_mode .o_list_view th,
-body.o_dark_mode .o_list_view td {
-  border-color: #333 !important;
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-}
-
-/* Kanban View */
-body.o_dark_mode .o_kanban_record {
-  background-color: #2a2a2a !important;
-  color: #f0f0f0 !important;
-  border: 1px solid #444 !important;
-}
-body.o_dark_mode .o_kanban_record:hover {
-  background-color: #333 !important;
-}
-
-/* Calendar View */
-body.o_dark_mode .o_calendar_view {
-  background-color: #1c1c1c !important;
-  color: #ddd !important;
-}
-body.o_dark_mode .o_calendar_event {
-  background-color: #3a3a3a !important;
-  border: 1px solid #555 !important;
-}
-
-/* Pivot View */
-body.o_dark_mode .o_pivot_view {
-  background-color: #202020 !important;
-  color: #e0e0e0 !important;
-}
-body.o_dark_mode .o_pivot_view th {
-  background-color: #2a2a2a !important;
-  color: #fff !important;
-}
-body.o_dark_mode .o_pivot_view td {
-  background-color: #1e1e1e !important;
-  border-color: #444 !important;
-}
-
-/* Activity Buttons */
-body.o_dark_mode .o_activity_button {
-  background-color: #2e2e2e !important;
-  color: #f0f0f0 !important;
-  border: 1px solid #555 !important;
-}
-body.o_dark_mode .o_activity_button:hover {
-  background-color: #444 !important;
-}
-
-/* Control Panel */
-body.o_dark_mode .o_control_panel {
-  background-color: #1e1e1e !important;
-  color: #e0e0e0 !important;
-  border-bottom: 1px solid #333 !important;
-}
-body.o_dark_mode .o_control_panel .o_searchview {
-  background-color: #2a2a2a !important;
-  border-color: #444 !important;
-  color: #e0e0e0 !important;
-}
-body.o_dark_mode .o_control_panel .o_searchview .o_searchview_input {
-  color: #e0e0e0 !important;
-}
+/* ============================================================================
+ * Dark Mode Rules  →  see dark_mode.scss
+ *
+ * All per-view dark mode overrides (List, Kanban, Calendar, Pivot, Activity,
+ * Form, Control Panel) have been moved to:
+ *   static/src/webclient/dark_mode.scss
+ *
+ * That file uses CSS custom properties (--dm-bg-*, --bs-primary-rgb, etc.)
+ * so colours update automatically when presets change.
+ *
+ * The <style id="theme_studio_dark"> injected by applyLiveCss() in
+ * theme_studio_service.js adds preset hex values (primary/secondary) for
+ * elements that require exact colours (event cards, hover states, etc.).
+ * ============================================================================ */
 
 // ── Preset Grid ────────────────────────────────────────────────────
 .o_theme_studio_panel {

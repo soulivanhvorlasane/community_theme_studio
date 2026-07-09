@@ -1,0 +1,684 @@
+// ============================================================================
+// dark_mode.scss – Preset-aware Dark Mode overrides for Odoo 18 Theme Studio
+//
+// HOW IT WORKS
+// ────────────
+// Dark Mode is enabled by two mechanisms working together:
+//
+//   1.  [data-bs-theme="dark"]  set on <html> by Bootstrap when darkMode=true
+//   2.  body.o_dark_mode        set by theme_studio_service.js → applyLiveCss()
+//
+// COLOUR TOKENS (all runtime CSS custom properties set by the JS service):
+//   --bs-primary        the preset's primary colour   (navbar bg)
+//   --bs-secondary      the preset's secondary colour (hover bg)
+//   --o-menu-text       auto-contrast text (#1e293b or #ffffff)
+//   --o-menu-hover-text auto-contrast hover text
+//   --o-menu-hover-bg   same as --bs-secondary (secondary colour)
+//
+// DARK SURFACE PALETTE (compile-time, no runtime updates needed):
+//   --dm-bg-0   #0f1117   deepest background  (app shell)
+//   --dm-bg-1   #161820   content area base
+//   --dm-bg-2   #1e2030   cards, panels
+//   --dm-bg-3   #262940   rows, alternating
+//   --dm-bg-4   #2e3150   hover, active rows
+//   --dm-border #2a2d45   borders & dividers
+//   --dm-text   #e2e4f0   primary text
+//   --dm-muted  #8b90b0   secondary / muted text
+//
+// The <style id="theme_studio_live"> injected block (higher specificity) adds
+// preset primary/secondary colours for event cards, active states, etc.
+// These SCSS rules bind to body.o_dark_mode so they apply only in dark mode.
+//
+// Smooth transitions (0.3s ease) on every interactive element.
+// ============================================================================
+
+// ── Surface palette as CSS custom properties on :root ──────────────────────
+:root {
+    --dm-bg-0:   #0f1117;
+    --dm-bg-1:   #161820;
+    --dm-bg-2:   #1e2030;
+    --dm-bg-3:   #262940;
+    --dm-bg-4:   #2e3150;
+    --dm-border: #2a2d45;
+    --dm-text:   #e2e4f0;
+    --dm-muted:  #8b90b0;
+    --dm-accent: var(--bs-primary, #714b67);  // preset primary → accent
+    --dm-hover:  var(--bs-secondary, #017e84); // preset secondary → hover
+}
+
+// ── Mixin: shared dark-surface panel ───────────────────────────────────────
+// Used as a @include to avoid duplicating the same set of props.
+@mixin dm-surface($bg: var(--dm-bg-2)) {
+    background-color: $bg !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+    transition: background-color 0.3s ease, color 0.3s ease,
+                border-color 0.3s ease !important;
+}
+
+// ============================================================================
+// 0.  App Shell
+// ============================================================================
+body.o_dark_mode {
+    background-color: var(--dm-bg-0) !important;
+    color: var(--dm-text) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    // General card / panel override (Bootstrap .card)
+    .card {
+        @include dm-surface(var(--dm-bg-2));
+        border: 1px solid var(--dm-border) !important;
+    }
+
+    // Modal / Dialog
+    .modal-content {
+        @include dm-surface(var(--dm-bg-2));
+    }
+    .modal-header,
+    .modal-footer {
+        border-color: var(--dm-border) !important;
+    }
+
+    // Generic form elements
+    .form-control,
+    .form-select {
+        background-color: var(--dm-bg-3) !important;
+        color: var(--dm-text) !important;
+        border-color: var(--dm-border) !important;
+        &::placeholder { color: var(--dm-muted) !important; }
+        &:focus {
+            background-color: var(--dm-bg-4) !important;
+            box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb, 113,75,103), 0.35) !important;
+        }
+    }
+
+    // Breadcrumb / page title
+    .o_breadcrumb .o_back_button,
+    .breadcrumb-item,
+    .breadcrumb-item.active {
+        color: var(--dm-text) !important;
+    }
+}
+
+// ============================================================================
+// 1.  Control Panel
+// ============================================================================
+body.o_dark_mode {
+
+    .o_control_panel {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+        border-bottom: 1px solid var(--dm-border) !important;
+        transition: background-color 0.3s ease;
+    }
+
+    // Search bar
+    .o_searchview {
+        background-color: var(--dm-bg-3) !important;
+        border: 1px solid var(--dm-border) !important;
+        border-radius: 6px !important;
+        color: var(--dm-text) !important;
+        transition: background-color 0.3s ease;
+
+        .o_searchview_input,
+        input {
+            color: var(--dm-text) !important;
+            background-color: transparent !important;
+            &::placeholder { color: var(--dm-muted) !important; }
+        }
+        .o_searchview_facet {
+            background-color: var(--dm-bg-4) !important;
+            color: var(--dm-text) !important;
+        }
+    }
+
+    // Filters / Group-by / Favourites buttons
+    .o_filter_menu,
+    .o_group_by_menu,
+    .o_favorite_menu {
+        background-color: var(--dm-bg-2) !important;
+        border: 1px solid var(--dm-border) !important;
+        color: var(--dm-text) !important;
+    }
+
+    // Action buttons in control panel
+    .o_control_panel_actions .btn,
+    .o_control_panel_breadcrumbs .btn {
+        color: var(--dm-text) !important;
+        border-color: var(--dm-border) !important;
+        background-color: var(--dm-bg-3) !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        &:hover {
+            background-color: var(--dm-hover) !important;
+            color: #ffffff !important;
+        }
+    }
+}
+
+// ============================================================================
+// 2.  List View
+// ============================================================================
+body.o_dark_mode {
+
+    // Main container
+    .o_list_view,
+    .o_list_view .o_list_table {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+        border-color: var(--dm-border) !important;
+    }
+
+    // Headers
+    .o_list_view thead th,
+    .o_list_view .o_list_header {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-muted) !important;
+        border-bottom: 1px solid var(--dm-border) !important;
+        border-right: 1px solid var(--dm-border) !important;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        transition: background-color 0.3s ease;
+    }
+
+    // Body rows
+    .o_list_view tbody tr,
+    .o_list_view .o_data_row {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+        transition: background-color 0.3s ease;
+        border-bottom: 1px solid var(--dm-border) !important;
+
+        // Alternating row shading
+        &:nth-child(even) {
+            background-color: var(--dm-bg-2) !important;
+        }
+
+        // Hover highlight using secondary/hover colour
+        &:hover {
+            background-color: rgba(var(--bs-secondary-rgb, 1,126,132), 0.18) !important;
+        }
+
+        // Selected / active row → primary accent
+        &.o_selected_row,
+        &.table-active {
+            background-color: rgba(var(--bs-primary-rgb, 113,75,103), 0.25) !important;
+        }
+    }
+
+    // Cells
+    .o_list_view td {
+        background-color: transparent !important;
+        color: var(--dm-text) !important;
+        border-right: 1px solid var(--dm-border) !important;
+    }
+
+    // Footer / aggregates row
+    .o_list_view tfoot tr,
+    .o_list_view .o_list_footer {
+        background-color: var(--dm-bg-3) !important;
+        color: var(--dm-muted) !important;
+        border-top: 2px solid var(--dm-border) !important;
+    }
+
+    // Optional: row checkbox area
+    .o_list_view .o_list_record_selector input[type=checkbox] {
+        accent-color: var(--dm-accent) !important;
+    }
+}
+
+// ============================================================================
+// 3.  Kanban View
+// ============================================================================
+body.o_dark_mode {
+
+    // Kanban columns / stages
+    .o_kanban_view,
+    .o_kanban_renderer {
+        background-color: var(--dm-bg-0) !important;
+    }
+
+    .o_kanban_group,
+    .o_kanban_header_title {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+        border-color: var(--dm-border) !important;
+        transition: background-color 0.3s ease;
+    }
+
+    .o_kanban_header_title {
+        border-bottom: 2px solid var(--dm-accent) !important;
+    }
+
+    // Cards
+    .o_kanban_record {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-text) !important;
+        border: 1px solid var(--dm-border) !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+        transition: background-color 0.3s ease, box-shadow 0.3s ease,
+                    border-color 0.3s ease, transform 0.15s ease !important;
+
+        &:hover {
+            background-color: var(--dm-bg-3) !important;
+            border-color: var(--dm-hover) !important;  // secondary colour on hover
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+            transform: translateY(-2px);
+        }
+
+        // Card title
+        .o_kanban_record_title,
+        .o_field_widget[name=display_name] {
+            color: var(--dm-text) !important;
+            font-weight: 600;
+        }
+
+        // Muted text inside card
+        .o_kanban_record_body,
+        .o_kanban_record_footer {
+            color: var(--dm-muted) !important;
+        }
+
+        // Priority stars, activity icons
+        .o_priority .o_priority_star,
+        .o_kanban_activity_btn {
+            color: var(--dm-muted) !important;
+            &.fa-star, &.o_priority_star.fa-star {
+                color: var(--dm-accent) !important;
+            }
+        }
+    }
+
+    // "Add a column" ghost card
+    .o_kanban_load_more,
+    .o_kanban_quick_add {
+        background-color: var(--dm-bg-2) !important;
+        border: 1px dashed var(--dm-border) !important;
+        color: var(--dm-muted) !important;
+        transition: background-color 0.3s ease;
+        &:hover {
+            background-color: var(--dm-bg-3) !important;
+            border-color: var(--dm-hover) !important;
+        }
+    }
+
+    // Status bars / labels in kanban
+    .o_kanban_state_label {
+        background-color: var(--dm-bg-4) !important;
+        color: var(--dm-text) !important;
+    }
+}
+
+// ============================================================================
+// 4.  Calendar View
+// ============================================================================
+body.o_dark_mode {
+
+    // Outer wrapper
+    .o_calendar_view,
+    .o_calendar_renderer,
+    .fc,
+    .fc-view-harness {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+    }
+
+    // FullCalendar grid
+    .fc-col-header,
+    .fc-col-header-cell,
+    .fc-timegrid-axis {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-muted) !important;
+        border-color: var(--dm-border) !important;
+    }
+
+    .fc-daygrid-day,
+    .fc-timegrid-slot,
+    .fc-timegrid-col {
+        background-color: var(--dm-bg-1) !important;
+        border-color: var(--dm-border) !important;
+        transition: background-color 0.3s ease;
+    }
+
+    // Today highlight — primary accent glow
+    .fc-day-today,
+    .fc-daygrid-day.fc-day-today {
+        background-color: rgba(var(--bs-primary-rgb, 113,75,103), 0.15) !important;
+        border-left: 3px solid var(--dm-accent) !important;
+    }
+
+    // Day number text
+    .fc-daygrid-day-number,
+    .fc-col-header-cell-cushion {
+        color: var(--dm-muted) !important;
+        text-decoration: none !important;
+        transition: color 0.2s;
+    }
+
+    // Event cards – primary colour background for clear preset identity
+    .fc-event,
+    .o_calendar_event,
+    .o_event {
+        background-color: var(--dm-accent) !important;  // preset primary
+        border-color: var(--dm-accent) !important;
+        color: #ffffff !important;
+        border-radius: 4px !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+        transition: filter 0.2s ease, box-shadow 0.2s ease;
+
+        &:hover {
+            filter: brightness(1.15) !important;           // lighten on hover
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .fc-event-title,
+        .o_event_title {
+            color: #ffffff !important;
+            font-weight: 500;
+        }
+
+        .fc-event-time {
+            color: rgba(255,255,255,0.8) !important;
+        }
+    }
+
+    // Calendar sidebar (mini-calendar / filters)
+    .o_calendar_filter,
+    .o_calendar_sidebar {
+        background-color: var(--dm-bg-2) !important;
+        border-left: 1px solid var(--dm-border) !important;
+        color: var(--dm-text) !important;
+    }
+
+    .o_calendar_filter_item {
+        color: var(--dm-text) !important;
+        transition: background-color 0.2s;
+        &:hover {
+            background-color: var(--dm-bg-3) !important;
+        }
+    }
+
+    // View switcher buttons (day/week/month)
+    .o_calendar_buttons .btn,
+    .o_calendar_view_buttons .btn {
+        background-color: var(--dm-bg-3) !important;
+        border-color: var(--dm-border) !important;
+        color: var(--dm-text) !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        &.active,
+        &.o_selected {
+            background-color: var(--dm-accent) !important;
+            border-color: var(--dm-accent) !important;
+            color: #ffffff !important;
+        }
+        &:hover:not(.active) {
+            background-color: rgba(var(--bs-secondary-rgb, 1,126,132), 0.25) !important;
+            border-color: var(--dm-hover) !important;
+        }
+    }
+}
+
+// ============================================================================
+// 5.  Pivot View
+// ============================================================================
+body.o_dark_mode {
+
+    .o_pivot,
+    .o_pivot_view {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+    }
+
+    // Column/row headers
+    .o_pivot thead th,
+    .o_pivot .o_pivot_header_cell_opened,
+    .o_pivot .o_pivot_header_cell_closed {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-muted) !important;
+        border: 1px solid var(--dm-border) !important;
+        font-weight: 600;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        transition: background-color 0.3s ease;
+
+        // Expand/collapse trigger → secondary hover colour
+        &:hover {
+            background-color: rgba(var(--bs-secondary-rgb, 1,126,132), 0.25) !important;
+            color: var(--dm-text) !important;
+        }
+    }
+
+    // Measure cells (totals highlighted with primary)
+    .o_pivot .o_pivot_cell_value.o_bold,
+    .o_pivot td.o_bold {
+        background-color: rgba(var(--bs-primary-rgb, 113,75,103), 0.20) !important;
+        color: var(--dm-text) !important;
+        font-weight: 700;
+    }
+
+    // Regular data cells
+    .o_pivot td {
+        background-color: var(--dm-bg-1) !important;
+        border: 1px solid var(--dm-border) !important;
+        color: var(--dm-text) !important;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: rgba(var(--bs-secondary-rgb, 1,126,132), 0.15) !important;
+        }
+    }
+
+    // Total / grand-total row
+    .o_pivot tfoot th,
+    .o_pivot tfoot td,
+    .o_pivot .o_pivot_total {
+        background-color: var(--dm-bg-3) !important;
+        color: var(--dm-text) !important;
+        border: 1px solid var(--dm-border) !important;
+        font-weight: 700;
+    }
+}
+
+// ============================================================================
+// 6.  Activity View
+// ============================================================================
+body.o_dark_mode {
+
+    // Activity table container
+    .o_activity_view,
+    .o_activity_renderer {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+    }
+
+    // Column headers (activity type names)
+    .o_activity_type_cell,
+    .o_activity_summary_cell th {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-muted) !important;
+        border-color: var(--dm-border) !important;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    // Activity cells
+    .o_activity_record,
+    .o_activity_cell {
+        background-color: var(--dm-bg-1) !important;
+        border-color: var(--dm-border) !important;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+            background-color: var(--dm-bg-3) !important;
+        }
+    }
+
+    // Activity action buttons (schedule / mark done / cancel)
+    .o_activity_button,
+    .o_activity .o_activity_icon {
+        background-color: var(--dm-bg-3) !important;
+        color: var(--dm-text) !important;
+        border: 1px solid var(--dm-border) !important;
+        border-radius: 6px !important;
+        transition: background-color 0.3s ease, border-color 0.3s ease,
+                    color 0.3s ease;
+
+        &:hover {
+            background-color: var(--dm-hover) !important;   // secondary colour
+            border-color: var(--dm-hover) !important;
+            color: #ffffff !important;
+        }
+
+        // Active / due state → primary accent
+        &.o_activity_done,
+        &.today {
+            background-color: rgba(var(--bs-primary-rgb, 113,75,103), 0.25) !important;
+            border-color: var(--dm-accent) !important;
+            color: var(--dm-accent) !important;
+        }
+
+        // Overdue → danger colour preserved
+        &.overdue,
+        &.o_activity_overdue {
+            background-color: rgba(220, 53, 69, 0.20) !important;
+            border-color: #dc3545 !important;
+            color: #ff6b6b !important;
+        }
+    }
+
+    // "Schedule activity" + button
+    .o_activity_schedule_btn,
+    .o_schedule_activity {
+        background-color: var(--dm-bg-3) !important;
+        color: var(--dm-muted) !important;
+        border: 1px dashed var(--dm-border) !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        &:hover {
+            background-color: rgba(var(--bs-primary-rgb, 113,75,103), 0.25) !important;
+            color: var(--dm-text) !important;
+            border-color: var(--dm-accent) !important;
+        }
+    }
+}
+
+// ============================================================================
+// 7.  Form View
+// ============================================================================
+body.o_dark_mode {
+
+    .o_form_view,
+    .o_form_view .o_form_sheet {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+    }
+
+    // Field labels
+    .o_form_view .o_field_widget label,
+    .o_form_view .o_wrap_label label,
+    .o_form_view .o_cell {
+        color: var(--dm-muted) !important;
+    }
+
+    // Field values
+    .o_form_view .o_field_widget .o_field_char,
+    .o_form_view .o_field_widget .o_field_text,
+    .o_form_view .o_field_widget span {
+        color: var(--dm-text) !important;
+    }
+
+    // Notebook tabs
+    .o_form_view .o_notebook .nav-link {
+        color: var(--dm-muted) !important;
+        border-bottom: 2px solid transparent;
+        transition: color 0.2s, border-color 0.2s;
+        &.active {
+            color: var(--dm-text) !important;
+            border-bottom-color: var(--dm-accent) !important;
+            background: transparent !important;
+        }
+        &:hover:not(.active) {
+            color: var(--dm-text) !important;
+        }
+    }
+
+    // Status bar
+    .o_form_view .o_statusbar_status .btn {
+        color: var(--dm-muted) !important;
+        background-color: transparent !important;
+        border: none !important;
+        transition: color 0.2s;
+        &.o_arrow_button_current,
+        &[aria-checked="true"] {
+            color: var(--dm-accent) !important;
+            font-weight: 700;
+        }
+        &:hover {
+            color: var(--dm-text) !important;
+        }
+    }
+
+    // Chatter / message area
+    .o_form_view .o_chatter,
+    .o_chatter_panel {
+        background-color: var(--dm-bg-2) !important;
+        border-left: 1px solid var(--dm-border) !important;
+    }
+
+    .o_form_view .o_Message,
+    .o_form_view .o_thread_message {
+        background-color: var(--dm-bg-3) !important;
+        border: 1px solid var(--dm-border) !important;
+        border-radius: 8px !important;
+        color: var(--dm-text) !important;
+        transition: background-color 0.2s;
+    }
+}
+
+// ============================================================================
+// 8.  Sidebar / App Menu (o_home_menu)
+// ============================================================================
+body.o_dark_mode {
+
+    .o_home_menu,
+    .o_web_client > .o_menu {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-text) !important;
+    }
+
+    .o_home_menu .o_app {
+        color: var(--dm-text) !important;
+        transition: background-color 0.2s;
+        &:hover {
+            background-color: var(--dm-bg-3) !important;
+        }
+    }
+}
+
+// ============================================================================
+// 9.  Scrollbar styling (Webkit / Firefox)
+// ============================================================================
+body.o_dark_mode {
+
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: var(--dm-bg-1);
+    }
+    ::-webkit-scrollbar-thumb {
+        background: var(--dm-border);
+        border-radius: 3px;
+        &:hover { background: var(--dm-muted); }
+    }
+
+    // Firefox
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--dm-border) var(--dm-bg-1);
+    }
+}

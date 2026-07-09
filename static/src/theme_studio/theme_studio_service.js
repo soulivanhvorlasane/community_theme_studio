@@ -274,6 +274,125 @@ export const themeStudioService = {
             }
 
             liveStyle.textContent = css;
+
+            // ----------------------------------------------------------------
+            // Dark-mode preset accent injection.
+            // dark_mode.scss uses rgba(var(--bs-primary-rgb), …) for accents,
+            // but some elements need the exact hex value for bg/border so we
+            // inject those here, rebuilt on every preset / dark-mode toggle.
+            // ----------------------------------------------------------------
+            let darkStyle = document.getElementById('theme_studio_dark');
+            if (!darkStyle) {
+                darkStyle = document.createElement('style');
+                darkStyle.id = 'theme_studio_dark';
+                document.head.appendChild(darkStyle);
+            }
+
+            if (state.darkMode) {
+                const p  = state.primaryColor;
+                const s  = state.secondaryColor;
+                const pRgb = hexToRgb(p);
+                const sRgb = hexToRgb(s);
+
+                darkStyle.textContent = `
+                    /* ── dark_mode preset accent overrides ── */
+
+                    /* Calendar events: primary colour background */
+                    body.o_dark_mode .fc-event,
+                    body.o_dark_mode .o_calendar_event,
+                    body.o_dark_mode .o_event {
+                        background-color: ${p} !important;
+                        border-color: ${p} !important;
+                        color: #ffffff !important;
+                    }
+                    body.o_dark_mode .fc-event:hover,
+                    body.o_dark_mode .o_calendar_event:hover {
+                        filter: brightness(1.15) !important;
+                    }
+
+                    /* Kanban column header underline: primary accent */
+                    body.o_dark_mode .o_kanban_header_title {
+                        border-bottom: 2px solid ${p} !important;
+                    }
+                    /* Kanban card hover: secondary border */
+                    body.o_dark_mode .o_kanban_record:hover {
+                        border-color: ${s} !important;
+                        background-color: rgba(${sRgb}, 0.12) !important;
+                    }
+
+                    /* List: selected row → primary accent */
+                    body.o_dark_mode .o_list_view .o_selected_row,
+                    body.o_dark_mode .o_list_view .table-active {
+                        background-color: rgba(${pRgb}, 0.22) !important;
+                    }
+                    /* List: row hover → secondary tint */
+                    body.o_dark_mode .o_list_view tbody tr:hover,
+                    body.o_dark_mode .o_list_view .o_data_row:hover {
+                        background-color: rgba(${sRgb}, 0.15) !important;
+                    }
+
+                    /* Pivot: total cells → primary tint */
+                    body.o_dark_mode .o_pivot .o_pivot_cell_value.o_bold,
+                    body.o_dark_mode .o_pivot td.o_bold {
+                        background-color: rgba(${pRgb}, 0.18) !important;
+                    }
+                    /* Pivot: header hover → secondary tint */
+                    body.o_dark_mode .o_pivot thead th:hover {
+                        background-color: rgba(${sRgb}, 0.22) !important;
+                    }
+
+                    /* Activity: done state → primary accent */
+                    body.o_dark_mode .o_activity_button.o_activity_done,
+                    body.o_dark_mode .o_activity_button.today {
+                        background-color: rgba(${pRgb}, 0.22) !important;
+                        border-color: ${p} !important;
+                        color: ${p} !important;
+                    }
+                    /* Activity: hover → secondary */
+                    body.o_dark_mode .o_activity_button:hover,
+                    body.o_dark_mode .o_activity .o_activity_icon:hover {
+                        background-color: ${s} !important;
+                        border-color: ${s} !important;
+                        color: #ffffff !important;
+                    }
+
+                    /* Calendar: today highlight → primary tint */
+                    body.o_dark_mode .fc-day-today,
+                    body.o_dark_mode .fc-daygrid-day.fc-day-today {
+                        background-color: rgba(${pRgb}, 0.12) !important;
+                        border-left: 3px solid ${p} !important;
+                    }
+
+                    /* Form notebook active tab → primary accent */
+                    body.o_dark_mode .o_form_view .o_notebook .nav-link.active {
+                        border-bottom-color: ${p} !important;
+                    }
+
+                    /* Status bar current state → primary */
+                    body.o_dark_mode .o_form_view .o_statusbar_status .btn.o_arrow_button_current {
+                        color: ${p} !important;
+                    }
+
+                    /* Control panel buttons hover → secondary */
+                    body.o_dark_mode .o_control_panel_actions .btn:hover,
+                    body.o_dark_mode .o_control_panel_breadcrumbs .btn:hover {
+                        background-color: ${s} !important;
+                        border-color: ${s} !important;
+                        color: #ffffff !important;
+                    }
+
+                    /* Schedule activity hover → primary tint */
+                    body.o_dark_mode .o_activity_schedule_btn:hover,
+                    body.o_dark_mode .o_schedule_activity:hover {
+                        background-color: rgba(${pRgb}, 0.22) !important;
+                        border-color: ${p} !important;
+                    }
+                `;
+            } else {
+                // Clear dark overrides when dark mode is off
+                darkStyle.textContent = '';
+            }
+
         }
 
         function applyPreset(preset) {
