@@ -10,7 +10,8 @@
 // We apply this generally to standard Odoo dropdown menus to inherit the preset.
 .o_main_navbar .o-dropdown--menu,
 .o_main_navbar .dropdown-menu,
-.o_search_panel .dropdown-menu,
+.o_control_panel .dropdown-menu,
+.o_search_bar_menu,
 .o_dropdown_menu,
 .o-autocomplete--dropdown-menu {
     background-color: var(--bs-primary) !important;
@@ -23,7 +24,8 @@
 body.o_dark_mode {
     .o_main_navbar .o-dropdown--menu,
     .o_main_navbar .dropdown-menu,
-    .o_search_panel .dropdown-menu,
+    .o_control_panel .dropdown-menu,
+    .o_search_bar_menu,
     .o_dropdown_menu,
     .o-autocomplete--dropdown-menu {
         background-color: var(--dm-bg-2) !important;
@@ -37,8 +39,9 @@ body.o_dark_mode {
 .o_main_navbar .o-dropdown--menu .dropdown-item,
 .o_main_navbar .dropdown-menu .dropdown-item,
 .o_main_navbar .dropdown-menu .dropdown-header,
-.o_search_panel .dropdown-menu .dropdown-item,
-.o_search_panel .dropdown-menu .dropdown-header,
+.o_control_panel .dropdown-menu .dropdown-item,
+.o_control_panel .dropdown-menu .dropdown-header,
+.o_search_bar_menu .dropdown-item,
 .o_dropdown_menu .dropdown-item,
 .o-autocomplete--dropdown-menu .dropdown-item {
     color: var(--o-menu-text, #ffffff) !important;
@@ -52,8 +55,10 @@ body.o_dark_mode {
 .o_main_navbar .o-dropdown--menu .dropdown-item:focus,
 .o_main_navbar .dropdown-menu .dropdown-item:hover,
 .o_main_navbar .dropdown-menu .dropdown-item:focus,
-.o_search_panel .dropdown-menu .dropdown-item:hover,
-.o_search_panel .dropdown-menu .dropdown-item:focus,
+.o_control_panel .dropdown-menu .dropdown-item:hover,
+.o_control_panel .dropdown-menu .dropdown-item:focus,
+.o_search_bar_menu .dropdown-item:hover,
+.o_search_bar_menu .dropdown-item:focus,
 .o_dropdown_menu .dropdown-item:hover,
 .o_dropdown_menu .dropdown-item:focus,
 .o-autocomplete--dropdown-menu .dropdown-item:hover,
@@ -65,37 +70,42 @@ body.o_dark_mode {
 // 4. Overrides for native <select> lists inside search panels (Custom Filter/Group)
 // Odoo uses `<select size="x">` which behaves like a listbox. We must ensure
 // it perfectly matches the dropdown background and doesn't get "invisible" text.
-.o_search_panel .dropdown-menu select,
-.o_search_panel .dropdown-menu .o_input,
-.o_search_panel select {
+.o_control_panel .dropdown-menu select,
+.o_control_panel .dropdown-menu .o_input,
+.o_search_bar_menu select {
     background-color: rgba(255, 255, 255, 0.05) !important; // Subtle contrast from primary bg
     color: var(--o-menu-text, #ffffff) !important;
     border: 1px solid rgba(255,255,255,0.2) !important;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.o_search_panel .dropdown-menu select option {
+.o_control_panel .dropdown-menu select option,
+.o_search_bar_menu select option {
     background-color: var(--bs-primary) !important;
     color: var(--o-menu-text, #ffffff) !important;
 }
 
-.o_search_panel .dropdown-menu select option:checked {
+.o_control_panel .dropdown-menu select option:checked,
+.o_search_bar_menu select option:checked {
     background-color: var(--bs-secondary) !important;
     color: var(--o-menu-hover-text, #ffffff) !important;
 }
 
 // Native select in dark mode
-body.o_dark_mode .o_search_panel .dropdown-menu select,
-body.o_dark_mode .o_search_panel .dropdown-menu .o_input {
+body.o_dark_mode .o_control_panel .dropdown-menu select,
+body.o_dark_mode .o_control_panel .dropdown-menu .o_input,
+body.o_dark_mode .o_search_bar_menu select {
     background-color: var(--dm-bg-3) !important;
     color: var(--dm-text) !important;
     border-color: var(--dm-border) !important;
 }
-body.o_dark_mode .o_search_panel .dropdown-menu select option {
+body.o_dark_mode .o_control_panel .dropdown-menu select option,
+body.o_dark_mode .o_search_bar_menu select option {
     background-color: var(--dm-bg-2) !important;
     color: var(--dm-text) !important;
 }
-body.o_dark_mode .o_search_panel .dropdown-menu select option:checked {
+body.o_dark_mode .o_control_panel .dropdown-menu select option:checked,
+body.o_dark_mode .o_search_bar_menu select option:checked {
     background-color: var(--bs-primary) !important;
     color: #ffffff !important;
 }
