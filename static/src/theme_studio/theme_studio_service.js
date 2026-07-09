@@ -248,16 +248,6 @@ export const themeStudioService = {
             // ── Calendar CSS ──
             const calendarCSS = `
                 /* Date Picker Dropdown (.o_datetime_picker) */
-                .o_datetime_picker {
-                    background-color: #1e1e1e !important;
-                    color: #dddddd !important;
-                    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-                }
-                .o_datetime_picker .o_date_item_cell {
-                    background-color: #2a2a2a !important;
-                    color: #dddddd !important;
-                    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-                }
                 .o_datetime_picker .o_datetime_picker_header {
                     background-color: ${p} !important;
                     color: ${menuHoverText} !important;
@@ -301,14 +291,10 @@ export const themeStudioService = {
                 }
 
                 /* Main App Calendar View */
-                .o_calendar_view {
-                    background-color: #1e1e1e !important;
-                    color: #dddddd !important;
-                }
                 .o_calendar_view .fc-theme-standard th, 
                 .o_calendar_view .fc-theme-standard td, 
                 .o_calendar_view .fc-theme-standard .fc-scrollgrid {
-                    border-color: rgba(255, 255, 255, 0.1) !important;
+                    border-color: rgba(128, 128, 128, 0.2) !important;
                 }
                 .o_calendar_view .fc-header-toolbar {
                     background-color: ${p} !important;
@@ -342,6 +328,37 @@ export const themeStudioService = {
                 .o_calendar_view .fc-event-main, 
                 .o_calendar_view .fc-event-title {
                     color: ${menuHoverText} !important;
+                }
+
+                /* Ensure dark backgrounds ONLY apply in Dark Mode */
+                [data-bs-theme="dark"] .o_datetime_picker,
+                .o_web_client.o_dark_mode .o_datetime_picker {
+                    background-color: #1e1e1e !important;
+                    color: #dddddd !important;
+                    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                }
+                [data-bs-theme="dark"] .o_datetime_picker .o_date_item_cell,
+                .o_web_client.o_dark_mode .o_datetime_picker .o_date_item_cell {
+                    background-color: #2a2a2a !important;
+                    color: #dddddd !important;
+                    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+                }
+                [data-bs-theme="dark"] .o_calendar_view,
+                .o_web_client.o_dark_mode .o_calendar_view {
+                    background-color: #1e1e1e !important;
+                    color: #dddddd !important;
+                }
+                [data-bs-theme="dark"] .o_calendar_view .fc-theme-standard th, 
+                [data-bs-theme="dark"] .o_calendar_view .fc-theme-standard td, 
+                [data-bs-theme="dark"] .o_calendar_view .fc-theme-standard .fc-scrollgrid,
+                .o_web_client.o_dark_mode .o_calendar_view .fc-theme-standard th, 
+                .o_web_client.o_dark_mode .o_calendar_view .fc-theme-standard td, 
+                .o_web_client.o_dark_mode .o_calendar_view .fc-theme-standard .fc-scrollgrid {
+                    border-color: rgba(255, 255, 255, 0.1) !important;
+                }
+                [data-bs-theme="dark"] .o_calendar_view .fc-day-today,
+                .o_web_client.o_dark_mode .o_calendar_view .fc-day-today {
+                    background-color: #2a2a2a !important;
                 }
             `;
             css += calendarCSS;
