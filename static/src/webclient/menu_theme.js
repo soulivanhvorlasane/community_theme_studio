@@ -2,21 +2,24 @@
 /**
  * menu_theme.js – Runtime palette binding for dynamic menu bar styling.
  *
- * Registers as an Odoo service that depends on the `theme_studio` service.
- * Every time `applyLiveCss()` fires (e.g. when the user picks a new color in
- * Theme Studio), we read the primary and secondary colors and push them into
- * two CSS custom properties on :root:
+ * This service reads the active Theme Studio palette and pushes two CSS
+ * custom properties onto :root every time the user changes the theme:
  *
- *   --o-menu-primary   → used by .o_main_navbar & .dropdown-menu backgrounds
- *   --o-menu-secondary → used by hover states on navbar items & dropdown items
+ *   --o-menu-primary   → navbar background + dropdown background
+ *   --o-menu-secondary → navbar item hover + dropdown item hover
  *
- * The SCSS file (menu_theme.scss) uses these variables as its color source,
- * so no page reload is needed when the user changes the theme.
+ * menu_theme.scss consumes these variables so all colors update instantly
+ * without any page reload.
  */
 
 import { registry } from "@web/core/registry";
 
-function applyMenuColors(primaryColor, secondaryColor) {
+/**
+ * Push palette colors into CSS custom properties.
+ * @param {string|null} primaryColor
+ * @param {string|null} secondaryColor
+ */
+function applyMenuPalette(primaryColor, secondaryColor) {
     const root = document.documentElement;
     if (primaryColor) {
         root.style.setProperty("--o-menu-primary", primaryColor);
@@ -30,15 +33,16 @@ export const menuThemeService = {
     dependencies: ["theme_studio"],
 
     start(env, { theme_studio }) {
-        // Apply immediately on boot with whatever colors are already loaded
-        applyMenuColors(theme_studio.primaryColor, theme_studio.secondaryColor);
+        // --- Apply immediately on boot ---
+        applyMenuPalette(theme_studio.primaryColor, theme_studio.secondaryColor);
 
-        // Intercept every future call to applyLiveCss so we stay in sync
-        const originalApplyLiveCss = theme_studio.applyLiveCss.bind(theme_studio);
+        // --- Intercept applyLiveCss to stay in sync on every Theme Studio change ---
+        const _original = theme_studio.applyLiveCss.bind(theme_studio);
 
         theme_studio.applyLiveCss = function (...args) {
-            originalApplyLiveCss(...args);
-            applyMenuColors(this.primaryColor, this.secondaryColor);
+            _original(...args);
+            // After Odoo rebuilds its own CSS vars, push ours
+            applyMenuPalette(this.primaryColor, this.secondaryColor);
         };
     },
 };
