@@ -376,6 +376,12 @@ export const themeStudioService = {
                 .o_web_client.o_dark_mode .o_calendar_view .fc-day-today {
                     background-color: #2a2a2a !important;
                 }
+                [data-bs-theme="dark"] .o_calendar_view h5,
+                .o_web_client.o_dark_mode .o_calendar_view h5,
+                [data-bs-theme="dark"] .o_calendar_header h5,
+                .o_web_client.o_dark_mode .o_calendar_header h5 {
+                    color: #ffffff !important;
+                }
             `;
             css += calendarCSS;
 
