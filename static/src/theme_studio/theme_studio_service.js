@@ -325,6 +325,22 @@ export const themeStudioService = {
                 .o_calendar_view .fc-event .fc-bg {
                     background-color: transparent !important;
                 }
+                /* Ensure Light Mode (Normal) has explicit backgrounds */
+                .o_datetime_picker {
+                    background-color: #ffffff !important;
+                    color: #222222 !important;
+                }
+                .o_datetime_picker .o_date_item_cell {
+                    background-color: #f9f9f9 !important;
+                    border: 1px solid #dddddd !important;
+                }
+                .o_calendar_view {
+                    background-color: #ffffff !important;
+                    color: #222222 !important;
+                }
+                .o_calendar_view .fc-day {
+                    background-color: #f9f9f9 !important;
+                }
                 .o_calendar_view .fc-event-main, 
                 .o_calendar_view .fc-event-title {
                     color: ${menuHoverText} !important;
