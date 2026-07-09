@@ -5,9 +5,7 @@
             <Dropdown class="'o_add_custom_group_menu_dropdown o_menu_item o_navigable w-100'"
                       togglerClass="'o_add_custom_group_menu_toggler dropdown-item w-100 text-start'"
                       title="'Add Custom Group'">
-                <t t-set-slot="toggler">
-                    <span>Add Custom Group</span>
-                </t>
+                <span>Add Custom Group</span>
                 <t t-set-slot="content">
                     <t t-foreach="props.fields" t-as="field" t-key="field.name">
                         <t t-if="field.type !== 'properties' and !field.isProperty">
