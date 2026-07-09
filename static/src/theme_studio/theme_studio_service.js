@@ -351,12 +351,6 @@ export const themeStudioService = {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
                 }
-                
-                /* Custom Dropdown Patch styling to replace the native select scrollbox */
-                .o_add_custom_group_menu_dropdown {
-                    max-height: 250px !important;
-                    overflow-y: auto !important;
-                }
             `;
 
             css += popupCSS;
