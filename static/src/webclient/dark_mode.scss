@@ -147,7 +147,9 @@ body.o_dark_mode {
 
     // Generic form elements
     .form-control,
-    .form-select {
+    .form-select,
+    .o_input,
+    select {
         background-color: var(--dm-bg-3) !important;
         color: var(--dm-text) !important;
         border-color: var(--dm-border) !important;
@@ -156,6 +158,12 @@ body.o_dark_mode {
             background-color: var(--dm-bg-4) !important;
             box-shadow: 0 0 0 2px rgba(var(--bs-primary-rgb, 113,75,103), 0.35) !important;
         }
+    }
+
+    option,
+    optgroup {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-text) !important;
     }
 
     // Breadcrumb / page title
