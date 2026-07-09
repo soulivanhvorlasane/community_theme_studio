@@ -1,0 +1,7 @@
+.o_main_navbar .o_menu_item {
+    transition: background-color 0.3s ease;
+}
+
+.o_main_navbar .o_menu_item:hover {
+    background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
+}
