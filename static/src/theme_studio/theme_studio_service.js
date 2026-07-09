@@ -473,6 +473,30 @@ export const themeStudioService = {
                 .o_kanban_header .o_column_title:hover {
                     color: ${s} !important;
                 }
+
+                /* 3. Kanban Numeric Text (.o_animated_number for Expected Revenue) */
+                .o_animated_number,
+                .o_kanban_record .o_animated_number,
+                .o_kanban_header .o_animated_number {
+                    font-weight: 700 !important;
+                    font-size: 1.4rem !important;
+                    margin-top: 4px !important;
+                    margin-bottom: 4px !important;
+                    color: ${menuHoverText} !important;
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+                    transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease !important;
+                }
+                .o_animated_number b,
+                .o_kanban_record .o_animated_number b,
+                .o_kanban_header .o_animated_number b {
+                    font-weight: inherit !important;
+                }
+                .o_animated_number:hover,
+                .o_kanban_record .o_animated_number:hover,
+                .o_kanban_header .o_animated_number:hover {
+                    color: ${s} !important;
+                    text-shadow: 0 2px 6px rgba(0,0,0,0.7) !important;
+                }
             `;
             css += kanbanCSS;
 

@@ -32,6 +32,7 @@
             'community_theme_studio/static/src/webclient/custom_filter_dark.scss',
             'community_theme_studio/static/src/webclient/kanban_title.scss',
             'community_theme_studio/static/src/webclient/calendar_darkmode.scss',
+            'community_theme_studio/static/src/webclient/kanban_number.scss',
         ],
     },
     'installable': True,
