@@ -13,8 +13,8 @@ export const hoverMenuService = {
             // Call original to update all the standard CSS and variables
             originalApplyLiveCss.apply(this, arguments);
             
-            // Apply the dynamic hover menu background based on the primary color
-            document.documentElement.style.setProperty('--hover-menu-bg', this.primaryColor);
+            // Apply the dynamic hover menu background based on the secondary color
+            document.documentElement.style.setProperty('--hover-menu-bg', this.secondaryColor);
         };
     }
 };
