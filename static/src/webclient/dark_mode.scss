@@ -580,14 +580,24 @@ body.o_dark_mode {
 
     // Activity table container
     .o_activity_view,
+    .o_activity_view .table,
     .o_activity_renderer {
         background-color: var(--dm-bg-1) !important;
         color: var(--dm-text) !important;
     }
 
-    // Column headers (activity type names)
+    // All table cells
+    .o_activity_view th,
+    .o_activity_view td {
+        background-color: var(--dm-bg-1) !important;
+        border-color: var(--dm-border) !important;
+        color: var(--dm-text) !important;
+    }
+
+    // Column headers (activity type names) & top-left empty cell
+    .o_activity_view thead th,
     .o_activity_type_cell,
-    .o_activity_summary_cell th {
+    .o_activity_empty_cell {
         background-color: var(--dm-bg-2) !important;
         color: var(--dm-muted) !important;
         border-color: var(--dm-border) !important;
@@ -598,9 +608,8 @@ body.o_dark_mode {
 
     // Activity cells
     .o_activity_record,
-    .o_activity_cell {
-        background-color: var(--dm-bg-1) !important;
-        border-color: var(--dm-border) !important;
+    .o_activity_cell,
+    .o_activity_view tbody td {
         transition: background-color 0.3s ease;
 
         &:hover {
@@ -641,7 +650,13 @@ body.o_dark_mode {
         }
     }
 
-    // "Schedule activity" + button
+    // "Schedule activity" + button / Footer area
+    .o_activity_view tfoot td,
+    .o_activity_view tfoot tr {
+        background-color: var(--dm-bg-1) !important;
+        border-top: 1px solid var(--dm-border) !important;
+    }
+    
     .o_activity_schedule_btn,
     .o_schedule_activity {
         background-color: var(--dm-bg-3) !important;
