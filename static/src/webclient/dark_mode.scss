@@ -407,9 +407,11 @@ body.o_dark_mode {
 // ============================================================================
 body.o_dark_mode {
 
-    // Outer wrapper
+    // Outer wrapper & Top Header
     .o_calendar_view,
     .o_calendar_renderer,
+    .o_calendar_header,
+    .fc-header-toolbar,
     .fc,
     .fc-view-harness {
         background-color: var(--dm-bg-1) !important;
@@ -477,9 +479,17 @@ body.o_dark_mode {
 
     // Calendar sidebar (mini-calendar / filters)
     .o_calendar_filter,
-    .o_calendar_sidebar {
+    .o_calendar_sidebar,
+    .o_calendar_sidebar_container {
         background-color: var(--dm-bg-2) !important;
         border-left: 1px solid var(--dm-border) !important;
+        color: var(--dm-text) !important;
+    }
+
+    // Mini-calendar / DatePicker
+    .o_datetime_picker,
+    .bootstrap-datetimepicker-widget {
+        background-color: var(--dm-bg-2) !important;
         color: var(--dm-text) !important;
     }
 
