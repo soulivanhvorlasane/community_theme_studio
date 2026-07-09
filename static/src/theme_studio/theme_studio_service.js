@@ -320,7 +320,7 @@ export const themeStudioService = {
                     box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
                     color: ${menuTextColor} !important;
                 }
-                /* Hover & Active States */
+                /* Hover, Active & Focus States */
                 .o_main_navbar .dropdown-item:hover,
                 .o-dropdown--menu .dropdown-item:hover,
                 .dropdown-menu .dropdown-item:hover,
@@ -337,7 +337,16 @@ export const themeStudioService = {
                 .o_control_panel .dropdown-menu .dropdown-item.active,
                 .o_search_bar_menu .dropdown-item.active,
                 .o_popup_panel .dropdown-item.active,
-                .o_popup_panel li.selected {
+                .o_popup_panel li.selected,
+                .o_main_navbar .dropdown-item:focus,
+                .o-dropdown--menu .dropdown-item:focus,
+                .dropdown-menu .dropdown-item:focus,
+                .o_dropdown_menu .dropdown-item:focus,
+                .o_control_panel .dropdown-menu .dropdown-item:focus,
+                .o_search_bar_menu .dropdown-item:focus,
+                .o_popup_panel .dropdown-item:focus,
+                .o_menu_item.o_accordion_toggle.dropdown-item.focus,
+                .o_menu_item.dropdown-item.focus {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
                 }
