@@ -248,6 +248,16 @@ export const themeStudioService = {
             // ── Calendar CSS ──
             const calendarCSS = `
                 /* Date Picker Dropdown (.o_datetime_picker) */
+                .o_datetime_picker {
+                    background-color: #1e1e1e !important;
+                    color: #dddddd !important;
+                    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+                }
+                .o_datetime_picker .o_date_item_cell {
+                    background-color: #2a2a2a !important;
+                    color: #dddddd !important;
+                    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+                }
                 .o_datetime_picker .o_datetime_picker_header {
                     background-color: ${p} !important;
                     color: ${menuHoverText} !important;
@@ -291,15 +301,27 @@ export const themeStudioService = {
                 }
 
                 /* Main App Calendar View */
+                .o_calendar_view {
+                    background-color: #1e1e1e !important;
+                    color: #dddddd !important;
+                }
+                .o_calendar_view .fc-theme-standard th, 
+                .o_calendar_view .fc-theme-standard td, 
+                .o_calendar_view .fc-theme-standard .fc-scrollgrid {
+                    border-color: rgba(255, 255, 255, 0.1) !important;
+                }
                 .o_calendar_view .fc-header-toolbar {
                     background-color: ${p} !important;
                     color: ${menuHoverText} !important;
                     padding: 10px;
                     border-radius: 8px;
                 }
+                .o_calendar_view .fc-header-toolbar .fc-toolbar-title, 
+                .o_calendar_view .fc-header-toolbar .fc-button {
+                    color: ${menuHoverText} !important;
+                }
                 .o_calendar_view .fc-header-toolbar .fc-button {
                     background-color: rgba(255, 255, 255, 0.2) !important;
-                    color: inherit !important;
                     border: none !important;
                 }
                 .o_calendar_view .fc-header-toolbar .fc-button:hover {
@@ -316,6 +338,10 @@ export const themeStudioService = {
                 }
                 .o_calendar_view .fc-event .fc-bg {
                     background-color: transparent !important;
+                }
+                .o_calendar_view .fc-event-main, 
+                .o_calendar_view .fc-event-title {
+                    color: ${menuHoverText} !important;
                 }
             `;
             css += calendarCSS;
