@@ -1,0 +1,39 @@
+// ============================================================================
+// navbar_dropdown.scss – Palette-driven navbar dropdown overrides for Odoo 18
+//
+// Ensures that all top menu dropdowns and portaled dropdown menus
+// dynamically inherit the active preset's primary and secondary colors.
+// ============================================================================
+
+// Target dropdown menus globally in case OWL portals them to the <body> tag,
+// as well as the standard navbar dropdowns.
+.o_main_navbar .o-dropdown--menu,
+.o_main_navbar .dropdown-menu,
+.o-dropdown--menu,
+.dropdown-menu {
+    background-color: var(--bs-primary) !important;
+    color: var(--o-menu-text, #ffffff) !important;
+    border: none !important;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Items and lists inside dropdowns
+.o_main_navbar .dropdown-item,
+.o-dropdown--menu .dropdown-item,
+.dropdown-menu .dropdown-item {
+    color: var(--o-menu-text, #ffffff) !important;
+    background-color: transparent !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Hover states for dropdown items
+.o_main_navbar .dropdown-item:hover,
+.o-dropdown--menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:hover,
+.o_main_navbar .dropdown-item:focus,
+.o-dropdown--menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:focus {
+    background-color: var(--bs-secondary) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
+}

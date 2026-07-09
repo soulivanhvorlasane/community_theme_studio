@@ -306,6 +306,8 @@ export const themeStudioService = {
                 /* Base Dropdowns */
                 .o_main_navbar .o-dropdown--menu,
                 .o_main_navbar .dropdown-menu,
+                .o-dropdown--menu,
+                .dropdown-menu,
                 .o_control_panel .dropdown-menu,
                 .o_search_bar_menu,
                 .o_dropdown_menu,
@@ -320,6 +322,8 @@ export const themeStudioService = {
                 }
                 /* Hover States */
                 .o_main_navbar .dropdown-item:hover,
+                .o-dropdown--menu .dropdown-item:hover,
+                .dropdown-menu .dropdown-item:hover,
                 .o_control_panel .dropdown-menu .dropdown-item:hover,
                 .o_search_bar_menu .dropdown-item:hover,
                 .o_popup_panel .dropdown-item:hover,
