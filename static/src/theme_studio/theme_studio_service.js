@@ -396,6 +396,19 @@ export const themeStudioService = {
                 .o_domain_selector .o_domain_node_info {
                     color: ${menuHoverText} !important;
                 }
+                .o_domain_selector .o_model_field_selector {
+                    background-color: ${s} !important;
+                    border-color: rgba(255, 255, 255, 0.2) !important;
+                    color: ${menuHoverText} !important;
+                }
+                .o_domain_selector .o_model_field_selector_chain_part {
+                    background-color: transparent !important;
+                    color: ${menuHoverText} !important;
+                    border: none !important;
+                }
+                .o_domain_selector .o_model_field_selector_chain_part:hover {
+                    background-color: rgba(255, 255, 255, 0.1) !important;
+                }
             `;
             css += customFilterCSS;
 

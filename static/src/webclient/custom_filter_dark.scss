@@ -88,8 +88,26 @@
         }
     }
     
+    
     // Ensure rule text is readable
     .o_domain_leaf_info, .o_domain_node_info {
         color: var(--o-menu-hover-text, #ffffff) !important;
+    }
+    
+    // Model Field Selector (e.g., "Salesperson" tag)
+    .o_model_field_selector {
+        background-color: var(--bs-secondary) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        color: var(--o-menu-hover-text, #ffffff) !important;
+    }
+    
+    .o_model_field_selector_chain_part {
+        background-color: transparent !important;
+        color: var(--o-menu-hover-text, #ffffff) !important;
+        border: none !important;
+    }
+    
+    .o_model_field_selector_chain_part:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
     }
 }
