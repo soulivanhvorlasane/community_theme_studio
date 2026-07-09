@@ -1,0 +1,52 @@
+// ============================================================================
+// popup_theme.scss – Palette-driven popup and dialog overrides for Odoo 18
+//
+// This ensures that all modal dialogs, popups, and dropdown panels
+// dynamically inherit the active preset's primary and secondary colors.
+// ============================================================================
+
+.o_popup_panel,
+.o_dialog .modal-content,
+.o_dialog .modal-header,
+.o_control_panel .o_dropdown {
+    background-color: var(--bs-primary) !important;
+    color: var(--o-menu-text, #ffffff) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Dialog body and footer might need contrasting background if header is primary
+.o_dialog .modal-body,
+.o_dialog .modal-footer {
+    background-color: var(--bs-body-bg, #ffffff) !important;
+    color: var(--bs-body-color, #212529) !important;
+}
+
+// Dark mode scoping for body/footer
+body.o_dark_mode .o_dialog .modal-body,
+body.o_dark_mode .o_dialog .modal-footer {
+    background-color: var(--dm-bg-1) !important;
+    color: var(--dm-text) !important;
+    border-color: var(--dm-border) !important;
+}
+
+// Items and lists inside popups/dialogs
+.o_popup_panel .dropdown-item,
+.o_popup_panel li,
+.o_control_panel .o_dropdown .dropdown-item,
+.o_control_panel .o_dropdown li {
+    padding: 10px 14px;
+    color: var(--o-menu-text, #ffffff) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: transparent !important;
+}
+
+// Hover states for items inside popups
+.o_popup_panel .dropdown-item:hover,
+.o_popup_panel li:hover,
+.o_control_panel .o_dropdown .dropdown-item:hover,
+.o_control_panel .o_dropdown li:hover {
+    background-color: var(--bs-secondary) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
+}

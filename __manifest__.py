@@ -20,6 +20,7 @@
         ],
         'web.assets_frontend': [
             'community_theme_studio/static/src/webclient/dropdown_theme.scss',
+            'community_theme_studio/static/src/webclient/popup_theme.scss',
         ],
     },
     'installable': True,
