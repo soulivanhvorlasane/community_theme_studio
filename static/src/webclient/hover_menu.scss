@@ -1,3 +1,7 @@
+// Ensure theme-colors map is available by importing Bootstrap variables if needed
+// (Odoo usually injects this, but importing prevents undefined variable errors)
+@import "web/static/lib/bootstrap/scss/_variables";
+
 .o_main_navbar .o_menu_item {
     transition: background-color 0.3s ease;
 }
