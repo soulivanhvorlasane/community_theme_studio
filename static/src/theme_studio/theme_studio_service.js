@@ -418,6 +418,38 @@ export const themeStudioService = {
             `;
             css += customFilterCSS;
 
+            // ── Kanban Styles CSS ──
+            const kanbanCSS = `
+                /* 1. Kanban Card Titles (Deal Titles) */
+                .o_kanban_record .o_kanban_primary {
+                    font-weight: 700 !important;
+                    font-size: 1.2rem !important;
+                    margin-bottom: 6px !important;
+                    color: ${menuHoverText} !important;
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.5) !important;
+                    transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.3s ease !important;
+                }
+                .o_kanban_record .o_kanban_primary:hover {
+                    color: ${s} !important;
+                    text-shadow: 0 2px 6px rgba(0,0,0,0.6) !important;
+                }
+
+                /* 2. Kanban Column Headers (Stages like New, Qualified, Won) */
+                .o_kanban_header_title .o_column_title,
+                .o_kanban_header .o_column_title {
+                    font-weight: 700 !important;
+                    font-size: 1.1rem !important;
+                    color: ${p} !important;
+                    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+                    transition: color 0.3s ease !important;
+                }
+                .o_kanban_header_title .o_column_title:hover,
+                .o_kanban_header .o_column_title:hover {
+                    color: ${s} !important;
+                }
+            `;
+            css += kanbanCSS;
+
             // ── Background image ──
             if (state.bgImage) {
                 css += `

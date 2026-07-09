@@ -30,6 +30,7 @@
             'community_theme_studio/static/src/webclient/search_dropdown.scss',
             'community_theme_studio/static/src/webclient/calendar_theme.scss',
             'community_theme_studio/static/src/webclient/custom_filter_dark.scss',
+            'community_theme_studio/static/src/webclient/kanban_title.scss',
         ],
     },
     'installable': True,
