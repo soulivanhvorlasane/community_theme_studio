@@ -15,6 +15,8 @@ export const hoverMenuService = {
             
             // Apply the dynamic hover menu background based on the primary color
             document.documentElement.style.setProperty('--hover-menu-bg', this.primaryColor);
+            // Apply the dynamic dropdown menu background based on the secondary color
+            document.documentElement.style.setProperty('--dropdown-menu-bg', this.secondaryColor);
         };
     }
 };
