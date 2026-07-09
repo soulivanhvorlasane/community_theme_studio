@@ -832,8 +832,3 @@ body.o_dark_mode {
         scrollbar-color: var(--dm-border) var(--dm-bg-1);
     }
 }
-
-// ============================================================================
-// Import Dropdown Theme (ensures immediate compilation without module upgrade)
-// ============================================================================
-@import "dropdown_theme";
