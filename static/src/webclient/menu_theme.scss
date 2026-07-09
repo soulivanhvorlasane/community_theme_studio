@@ -1,0 +1,68 @@
+// ============================================================================
+// menu_theme.scss – Dynamic Menu Bar Styling for Odoo 18
+// Colors are driven by CSS custom properties injected by menu_theme.js at
+// runtime, so they update instantly when the user changes the Theme Studio
+// palette. The map-get fallbacks ensure correct initial render from SCSS.
+// ============================================================================
+
+// ------------------------------------------------------------------
+// 1. Main Navbar – Primary Color background
+// ------------------------------------------------------------------
+.o_main_navbar {
+    background-color: var(--o-menu-primary, #875a7b) !important;
+    transition: background-color 0.3s ease;
+}
+
+// ------------------------------------------------------------------
+// 2. Navbar item transitions
+// ------------------------------------------------------------------
+.o_main_navbar .o_menu_sections .o_nav_entry,
+.o_main_navbar .o_menu_sections .dropdown-toggle,
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_menu_toggle {
+    transition: background-color 0.3s ease;
+}
+
+// ------------------------------------------------------------------
+// 3. Navbar hover states – Secondary Color
+// ------------------------------------------------------------------
+.o_main_navbar .o_menu_sections .o_nav_entry:hover,
+.o_main_navbar .o_menu_sections .dropdown-toggle:hover,
+.o_main_navbar .o_menu_brand:hover,
+.o_main_navbar .o_menu_toggle:hover {
+    background-color: var(--o-menu-secondary, #00a09d) !important;
+    background-image: none !important;
+}
+
+// ------------------------------------------------------------------
+// 4. Dropdown panel – Primary Color background
+// (Odoo 18 mounts .o-dropdown--menu in the <body>, not inside .o_main_navbar)
+// ------------------------------------------------------------------
+.o-dropdown--menu,
+.dropdown-menu {
+    background-color: var(--o-menu-primary, #875a7b) !important;
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    transition: background-color 0.3s ease;
+}
+
+// ------------------------------------------------------------------
+// 5. Dropdown items – white text, Secondary Color on hover
+// ------------------------------------------------------------------
+.o-dropdown--menu .o-dropdown-item,
+.o-dropdown--menu .dropdown-item,
+.dropdown-menu .dropdown-item,
+.dropdown-menu .dropdown-header {
+    color: #ffffff !important;
+    transition: background-color 0.3s ease;
+}
+
+.o-dropdown--menu .o-dropdown-item:hover,
+.o-dropdown--menu .o-dropdown-item:focus,
+.o-dropdown--menu .dropdown-item:hover,
+.o-dropdown--menu .dropdown-item:focus,
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item:focus {
+    background-color: var(--o-menu-secondary, #00a09d) !important;
+    color: #ffffff !important;
+}
