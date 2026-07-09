@@ -353,6 +353,8 @@ export const themeStudioService = {
                     color: #dddddd !important;
                     border: 1px solid rgba(255, 255, 255, 0.1) !important;
                 }
+                [data-bs-theme="dark"] .o_datetime_picker .o_day_of_week_cell,
+                .o_web_client.o_dark_mode .o_datetime_picker .o_day_of_week_cell,
                 [data-bs-theme="dark"] .o_datetime_picker .o_date_item_cell,
                 .o_web_client.o_dark_mode .o_datetime_picker .o_date_item_cell {
                     background-color: #2a2a2a !important;
