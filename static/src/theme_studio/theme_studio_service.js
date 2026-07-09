@@ -299,26 +299,26 @@ export const themeStudioService = {
                     background-color: ${menuHoverBg} !important;
                     color: ${menuHoverText} !important;
                 }
-                .o-dropdown--menu,
-                .dropdown-menu {
+                .o_main_navbar .o-dropdown--menu,
+                .o_main_navbar .dropdown-menu {
                     background-color: ${state.darkMode ? '#1e2030' : p} !important;
                     border: ${state.darkMode ? '1px solid #2a2d45' : (isLightNavbar ? '1px solid rgba(0,0,0,0.10)' : 'none')} !important;
                     box-shadow: 0 4px 16px rgba(0,0,0,${state.darkMode ? '0.40' : (isLightNavbar ? '0.10' : '0.30')}) !important;
                     transition: background-color 0.3s ease;
                 }
-                .o-dropdown--menu .o-dropdown-item,
-                .o-dropdown--menu .dropdown-item,
-                .dropdown-menu .dropdown-item,
-                .dropdown-menu .dropdown-header {
+                .o_main_navbar .o-dropdown--menu .o-dropdown-item,
+                .o_main_navbar .o-dropdown--menu .dropdown-item,
+                .o_main_navbar .dropdown-menu .dropdown-item,
+                .o_main_navbar .dropdown-menu .dropdown-header {
                     color: ${menuTextColor} !important;
                     transition: background-color 0.3s ease, color 0.3s ease;
                 }
-                .o-dropdown--menu .o-dropdown-item:hover,
-                .o-dropdown--menu .o-dropdown-item:focus,
-                .o-dropdown--menu .dropdown-item:hover,
-                .o-dropdown--menu .dropdown-item:focus,
-                .dropdown-menu .dropdown-item:hover,
-                .dropdown-menu .dropdown-item:focus {
+                .o_main_navbar .o-dropdown--menu .o-dropdown-item:hover,
+                .o_main_navbar .o-dropdown--menu .o-dropdown-item:focus,
+                .o_main_navbar .o-dropdown--menu .dropdown-item:hover,
+                .o_main_navbar .o-dropdown--menu .dropdown-item:focus,
+                .o_main_navbar .dropdown-menu .dropdown-item:hover,
+                .o_main_navbar .dropdown-menu .dropdown-item:focus {
                     background-color: ${menuHoverBg} !important;
                     color: ${menuHoverText} !important;
                 }
