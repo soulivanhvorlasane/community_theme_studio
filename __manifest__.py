@@ -18,6 +18,9 @@
             'community_theme_studio/static/src/theme_studio/**/*',
             'community_theme_studio/static/src/webclient/**/*',
         ],
+        'web.assets_frontend': [
+            'community_theme_studio/static/src/webclient/dropdown_theme.scss',
+        ],
     },
     'installable': True,
     'application': False,
