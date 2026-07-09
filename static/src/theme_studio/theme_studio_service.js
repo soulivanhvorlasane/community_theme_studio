@@ -352,9 +352,16 @@ export const themeStudioService = {
                 .o_control_panel .dropdown-menu select:focus,
                 .o_control_panel .dropdown-menu select.focus,
                 .o_search_bar_menu select:focus,
-                .o_search_bar_menu select.focus {
+                .o_search_bar_menu select.focus,
+                .o_searchview_dropdown_toggler:focus,
+                .o_searchview_dropdown_toggler:active,
+                .o_searchview_dropdown_toggler.show,
+                .o_search_options button.dropdown-toggle:focus,
+                .o_search_options button.dropdown-toggle:active,
+                .o_search_options button.dropdown-toggle.show {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
+                    border-color: ${s} !important;
                 }
                 /* Native Select inside search panels (fallback) */
                 .o_control_panel .dropdown-menu select,
