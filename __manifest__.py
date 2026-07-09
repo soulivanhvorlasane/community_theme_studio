@@ -24,6 +24,7 @@
             'community_theme_studio/static/src/webclient/navbar_dropdown.scss',
             'community_theme_studio/static/src/webclient/dropdown_selection.scss',
             'community_theme_studio/static/src/webclient/dropdown_header.scss',
+            'community_theme_studio/static/src/webclient/dropdown_select.scss',
         ],
     },
     'installable': True,

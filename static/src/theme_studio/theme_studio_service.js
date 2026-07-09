@@ -346,7 +346,13 @@ export const themeStudioService = {
                 .o_search_bar_menu .dropdown-item:focus,
                 .o_popup_panel .dropdown-item:focus,
                 .o_menu_item.o_accordion_toggle.dropdown-item.focus,
-                .o_menu_item.dropdown-item.focus {
+                .o_menu_item.dropdown-item.focus,
+                select.o_add_custom_group_menu:focus,
+                select.o_add_custom_group_menu.focus,
+                .o_control_panel .dropdown-menu select:focus,
+                .o_control_panel .dropdown-menu select.focus,
+                .o_search_bar_menu select:focus,
+                .o_search_bar_menu select.focus {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
                 }

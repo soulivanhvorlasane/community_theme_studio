@@ -1,0 +1,21 @@
+// ============================================================================
+// dropdown_select.scss – Palette-driven dropdown select focus overrides
+// ============================================================================
+
+select.o_add_custom_group_menu:focus,
+select.o_add_custom_group_menu.focus,
+.o_control_panel .dropdown-menu select:focus,
+.o_control_panel .dropdown-menu select.focus,
+.o_search_bar_menu select:focus,
+.o_search_bar_menu select.focus {
+    background-color: var(--bs-secondary) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Also ensure the checked options inside receive the same treatment */
+select.o_add_custom_group_menu option:checked {
+    background-color: var(--bs-secondary) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
+}
