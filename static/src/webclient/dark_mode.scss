@@ -779,6 +779,15 @@ body.o_dark_mode {
         --body-color: var(--dm-text);
         --border-color: var(--dm-border);
     }
+    
+    // Graph / Chart tooltips
+    .chartjs-tooltip,
+    .o_graph_custom_tooltip,
+    .popover[class*="chart"] {
+        background-color: var(--dm-bg-2) !important;
+        color: var(--dm-text) !important;
+        border: 1px solid var(--dm-border) !important;
+    }
 }
 
 // ============================================================================

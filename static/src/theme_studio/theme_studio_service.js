@@ -149,6 +149,38 @@ export const themeStudioService = {
                 document.cookie = "color_scheme=light; path=/; max-age=31536000";
             }
 
+            // Force Chart.js to update if it's loaded
+            if (window.Chart && window.Chart.defaults) {
+                const textColor = state.darkMode ? '#e4e4e4' : '#111827';
+                const gridColor = state.darkMode ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.1)';
+                
+                window.Chart.defaults.color = textColor;
+                if (window.Chart.defaults.scale && window.Chart.defaults.scale.grid) {
+                    window.Chart.defaults.scale.grid.color = gridColor;
+                }
+                if (window.Chart.defaults.plugins && window.Chart.defaults.plugins.legend && window.Chart.defaults.plugins.legend.labels) {
+                    window.Chart.defaults.plugins.legend.labels.color = textColor;
+                }
+                
+                // Update all existing charts
+                for (let id in window.Chart.instances) {
+                    let chart = window.Chart.instances[id];
+                    if (chart.options && chart.options.scales) {
+                        for (let scale in chart.options.scales) {
+                            if (chart.options.scales[scale].ticks) chart.options.scales[scale].ticks.color = textColor;
+                            if (chart.options.scales[scale].grid) chart.options.scales[scale].grid.color = gridColor;
+                        }
+                    }
+                    if (chart.options && chart.options.plugins && chart.options.plugins.legend && chart.options.plugins.legend.labels) {
+                        chart.options.plugins.legend.labels.color = textColor;
+                    }
+                    chart.update();
+                }
+                
+                // Dispatch resize event to force Odoo's graph renderer to adapt
+                window.dispatchEvent(new Event('resize'));
+            }
+
             // Favicon
             if (state.favicon) {
                 let faviconLink = document.querySelector("link[rel~='icon']");
