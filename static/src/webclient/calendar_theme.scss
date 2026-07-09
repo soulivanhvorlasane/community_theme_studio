@@ -1,0 +1,108 @@
+// ============================================================================
+// calendar_theme.scss – Palette-driven Calendar View and DatePicker styles
+// ============================================================================
+
+@function auto-contrast($bg-color) {
+  @if (lightness($bg-color) > 60) {
+    @return #222; // dark text
+  } @else {
+    @return #fff; // light text
+  }
+}
+
+// ----------------------------------------------------------------------------
+// 1. Date Picker Dropdown (.o_datetime_picker)
+// ----------------------------------------------------------------------------
+.o_datetime_picker {
+    // Header
+    .o_datetime_picker_header {
+        background-color: map-get($o-theme-palette, primary) !important;
+        color: auto-contrast(map-get($o-theme-palette, primary)) !important;
+        border-radius: 8px 8px 0 0;
+        
+        .btn, .o_datetime_button {
+            color: auto-contrast(map-get($o-theme-palette, primary)) !important;
+            transition: background-color 0.3s ease;
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.2) !important;
+            }
+        }
+    }
+
+    // Subtle grid lines & cell styling
+    .o_date_item_cell {
+        border: 1px solid rgba(128, 128, 128, 0.1) !important;
+        border-radius: 6px !important;
+        transition: all 0.3s ease;
+        
+        &:hover:not(.o_out_of_range) {
+            background-color: rgba(map-get($o-theme-palette, secondary), 0.15) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    }
+
+    // Selected ranges
+    .o_selected:not(.o_select_start):not(.o_select_end) {
+        background-color: rgba(map-get($o-theme-palette, secondary), 0.3) !important;
+    }
+
+    // Start, End, and Highlighted circles
+    .o_highlighted:before,
+    .o_select_start:before,
+    .o_select_end:before {
+        background-color: map-get($o-theme-palette, secondary) !important;
+        box-shadow: 0 2px 8px rgba(map-get($o-theme-palette, secondary), 0.4) !important;
+        border: none !important;
+    }
+
+    // Ensure text inside circles is readable
+    .o_select_start,
+    .o_select_end,
+    .o_highlighted {
+        color: auto-contrast(map-get($o-theme-palette, secondary)) !important;
+    }
+
+    // Today's date (Current) - distinct border
+    .o_current:not(.o_select_start):not(.o_select_end):not(.o_highlighted):before {
+        box-shadow: inset 0 0 0 2px map-get($o-theme-palette, secondary) !important;
+        background-color: transparent !important;
+    }
+}
+
+// ----------------------------------------------------------------------------
+// 2. Main App Calendar View (.o_calendar_view)
+// ----------------------------------------------------------------------------
+.o_calendar_view {
+    // Header navigation
+    .fc-header-toolbar {
+        background-color: map-get($o-theme-palette, primary) !important;
+        color: auto-contrast(map-get($o-theme-palette, primary)) !important;
+        padding: 10px;
+        border-radius: 8px;
+        
+        .fc-button {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            color: inherit !important;
+            border: none !important;
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.3) !important;
+            }
+        }
+    }
+    
+    // Today highlight
+    .fc-day-today {
+        background-color: rgba(map-get($o-theme-palette, secondary), 0.05) !important;
+        box-shadow: inset 0 0 0 2px map-get($o-theme-palette, secondary) !important;
+    }
+    
+    // Event highlights
+    .fc-event {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-radius: 4px;
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+    }
+}

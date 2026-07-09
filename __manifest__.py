@@ -28,6 +28,7 @@
             'community_theme_studio/static/src/webclient/dropdown_header.scss',
             'community_theme_studio/static/src/webclient/dropdown_select.scss',
             'community_theme_studio/static/src/webclient/search_dropdown.scss',
+            'community_theme_studio/static/src/webclient/calendar_theme.scss',
         ],
     },
     'installable': True,

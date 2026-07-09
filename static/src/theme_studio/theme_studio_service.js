@@ -245,6 +245,73 @@ export const themeStudioService = {
                 `;
             }
 
+            // ── Calendar CSS ──
+            const calendarCSS = `
+                /* Date Picker Dropdown (.o_datetime_picker) */
+                .o_datetime_picker .o_datetime_picker_header {
+                    background-color: ${p} !important;
+                    color: ${menuHoverText} !important;
+                    border-radius: 8px 8px 0 0;
+                }
+                .o_datetime_picker .o_datetime_picker_header .btn, 
+                .o_datetime_picker .o_datetime_picker_header .o_datetime_button {
+                    color: ${menuHoverText} !important;
+                }
+                .o_datetime_picker .o_datetime_picker_header .btn:hover,
+                .o_datetime_picker .o_datetime_picker_header .o_datetime_button:hover {
+                    background-color: rgba(255, 255, 255, 0.2) !important;
+                }
+                .o_datetime_picker .o_date_item_cell {
+                    border: 1px solid rgba(128, 128, 128, 0.1) !important;
+                    border-radius: 6px !important;
+                    transition: all 0.3s ease;
+                }
+                .o_datetime_picker .o_date_item_cell:hover:not(.o_out_of_range) {
+                    background-color: rgba(${sRgb}, 0.15) !important;
+                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                }
+                .o_datetime_picker .o_selected:not(.o_select_start):not(.o_select_end) {
+                    background-color: rgba(${sRgb}, 0.3) !important;
+                }
+                .o_datetime_picker .o_highlighted:before,
+                .o_datetime_picker .o_select_start:before,
+                .o_datetime_picker .o_select_end:before {
+                    background-color: ${s} !important;
+                    box-shadow: 0 2px 8px rgba(${sRgb}, 0.4) !important;
+                    border: none !important;
+                }
+                .o_datetime_picker .o_select_start,
+                .o_datetime_picker .o_select_end,
+                .o_datetime_picker .o_highlighted {
+                    color: ${menuHoverText} !important;
+                }
+                .o_datetime_picker .o_current:not(.o_select_start):not(.o_select_end):not(.o_highlighted):before {
+                    box-shadow: inset 0 0 0 2px ${s} !important;
+                    background-color: transparent !important;
+                }
+
+                /* Main App Calendar View */
+                .o_calendar_view .fc-header-toolbar {
+                    background-color: ${p} !important;
+                    color: ${menuHoverText} !important;
+                    padding: 10px;
+                    border-radius: 8px;
+                }
+                .o_calendar_view .fc-header-toolbar .fc-button {
+                    background-color: rgba(255, 255, 255, 0.2) !important;
+                    color: inherit !important;
+                    border: none !important;
+                }
+                .o_calendar_view .fc-header-toolbar .fc-button:hover {
+                    background-color: rgba(255, 255, 255, 0.3) !important;
+                }
+                .o_calendar_view .fc-day-today {
+                    background-color: rgba(${sRgb}, 0.05) !important;
+                    box-shadow: inset 0 0 0 2px ${s} !important;
+                }
+            `;
+            css += calendarCSS;
+
             // ── Background image ──
             if (state.bgImage) {
                 css += `
