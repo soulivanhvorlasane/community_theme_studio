@@ -343,7 +343,11 @@ export const themeStudioService = {
                     color: ${menuTextColor} !important;
                 }
                 .o_control_panel .dropdown-menu select option:checked,
-                .o_search_bar_menu select option:checked {
+                .o_search_bar_menu select option:checked,
+                .o_control_panel .dropdown-menu select option:hover,
+                .o_search_bar_menu select option:hover,
+                .o_control_panel .dropdown-menu select:focus option:checked,
+                .o_search_bar_menu select:focus option:checked {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
                 }
