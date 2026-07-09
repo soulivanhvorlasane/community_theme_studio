@@ -1,0 +1,26 @@
+// ============================================================================
+// dropdown_selection.scss – Palette-driven dropdown selection overrides
+// ============================================================================
+
+.o_main_navbar .dropdown-item.active,
+.o_main_navbar .dropdown-item.selected,
+.o-dropdown--menu .dropdown-item.active,
+.dropdown-menu .dropdown-item.active,
+.o_dropdown_menu .dropdown-item.active,
+.o_dropdown_menu li.selected,
+.o_control_panel .dropdown-menu .dropdown-item.active,
+.o_search_bar_menu .dropdown-item.active,
+.o_popup_panel .dropdown-item.active,
+.o_popup_panel li.selected {
+    background-color: var(--bs-secondary) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Fallback for native select option checked states (where supported) */
+.o_control_panel .dropdown-menu select option:checked,
+.o_search_bar_menu select option:checked {
+    background-color: var(--bs-secondary) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
+}
