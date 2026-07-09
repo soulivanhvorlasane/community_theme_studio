@@ -7,16 +7,18 @@ export const themeStudioService = {
     start(env) {
         const state = reactive({ 
             isOpen: false,
-            primaryColor: "#714B67",
-            secondaryColor: "#8f8f8f",
+            // ── 3-Color Palette ──
+            primaryColor: "#714B67",    // navbar bg, dropdown bg, active states, badges
+            secondaryColor: "#017e84", // hover bg, highlights, buttons, accents
+            textColor: "#ffffff",       // labels, menu items, status text (auto-contrast)
             bgImage: false,
             favicon: false,
             darkMode: false,
             glassmorphism: false,
             overlayOpacity: 0,
-            activePreset: null,   // tracks which preset is currently active
-            
-            // New Style dummy variables
+            activePreset: null,
+
+            // Style tab variables
             pFontSize: 1,
             pSpacing: 0,
             pFontFamily: "System Fonts",
@@ -31,11 +33,9 @@ export const themeStudioService = {
         async function loadConfig() {
             try {
                 const config = await rpc("/theme_studio/get_config", {});
-                state.primaryColor = config.primary_color || '#ea580c';
-                state.secondaryColor = config.secondary_color || '#32354a';
-                state.textColor = config.text_color || '#212529';
-                state.textStatusColor = config.text_status_color || '#ffffff';
-                state.statusColor = config.status_color || '#17a2b8';
+                state.primaryColor = config.primary_color || '#714B67';
+                state.secondaryColor = config.secondary_color || '#017e84';
+                state.textColor = config.text_color || '#ffffff';
                 state.bgImage = config.bg_image || false;
                 state.favicon = config.favicon || false;
                 state.darkMode = config.dark_mode;
@@ -53,8 +53,6 @@ export const themeStudioService = {
                 primary_color: state.primaryColor,
                 secondary_color: state.secondaryColor,
                 text_color: state.textColor,
-                text_status_color: state.textStatusColor,
-                status_color: state.statusColor,
                 dark_mode: state.darkMode,
                 glassmorphism: state.glassmorphism,
                 overlay_opacity: state.overlayOpacity,
@@ -96,40 +94,47 @@ export const themeStudioService = {
             return 0.299 * r + 0.587 * g + 0.114 * b;
         }
 
+        /**
+         * Auto-contrast: returns white or dark text based on background luminance.
+         */
+        function autoContrastText(bgHex) {
+            return perceivedLuminance(bgHex) > 186 ? '#1e293b' : '#ffffff';
+        }
+
         function applyLiveCss() {
-            // Update CSS variables instantly
             const root = document.documentElement;
-            root.style.setProperty('--bs-primary', state.primaryColor);
-            root.style.setProperty('--bs-primary-rgb', hexToRgb(state.primaryColor));
-            root.style.setProperty('--bs-secondary', state.secondaryColor);
-            root.style.setProperty('--bs-secondary-rgb', hexToRgb(state.secondaryColor));
-            root.style.setProperty('--o-brand-primary', state.primaryColor);
-            root.style.setProperty('--o-brand-odoo', state.primaryColor);
-            root.style.setProperty('--bs-body-color', state.textColor);
-            root.style.setProperty('--ts-status-color', state.statusColor);
-            root.style.setProperty('--ts-text-status-color', state.textStatusColor);
+            const p = state.primaryColor;
+            const s = state.secondaryColor;
+            const t = state.textColor;
+            const pRgb = hexToRgb(p);
+            const sRgb = hexToRgb(s);
 
-            // ----------------------------------------------------------------
-            // Auto-contrast: compute text color from navbar bg (primary) AND
-            // hover text from hover bg (secondary) INDEPENDENTLY.
-            // ITU-R BT.601 perceived luminance, threshold 186 (~73% of 255).
-            // This ensures every preset—including Coral's bright-orange hover—
-            // gets the right text color automatically.
-            // ----------------------------------------------------------------
-            const lum    = perceivedLuminance(state.primaryColor);
-            const secLum = perceivedLuminance(state.secondaryColor);
-            const isLightNavbar = lum    > 186;  // only Snow triggers this today
-            const isLightHover  = secLum > 186;  // e.g. Snow secondary #cbd5e1
+            // ── CSS Custom Properties ──
+            root.style.setProperty('--bs-primary', p);
+            root.style.setProperty('--bs-primary-rgb', pRgb);
+            root.style.setProperty('--bs-secondary', s);
+            root.style.setProperty('--bs-secondary-rgb', sRgb);
+            root.style.setProperty('--o-brand-primary', p);
+            root.style.setProperty('--o-brand-odoo', p);
+            root.style.setProperty('--ts-text-color', t);
 
-            const menuTextColor = isLightNavbar ? '#1e293b' : '#ffffff';
-            const menuHoverBg   = state.secondaryColor;
-            const menuHoverText = isLightHover  ? '#1e293b' : '#ffffff';
+            // ── Auto-contrast ──
+            const isLightNavbar = state.darkMode ? false : perceivedLuminance(p) > 186;
+            const isLightHover  = state.darkMode ? false : perceivedLuminance(s) > 186;
+
+            // Menu text: use preset's text color, but in dark mode always white
+            const menuTextColor = state.darkMode ? '#ffffff' : (isLightNavbar ? '#1e293b' : t);
+            const menuHoverBg   = state.darkMode ? '#2e3150' : s;
+            const menuHoverText = state.darkMode ? '#ffffff' : (isLightHover ? '#1e293b' : t);
+            // Badge text: auto-contrast against primary bg
+            const badgeText = autoContrastText(p);
 
             root.style.setProperty('--o-menu-text',       menuTextColor);
             root.style.setProperty('--o-menu-hover-text', menuHoverText);
             root.style.setProperty('--o-menu-hover-bg',   menuHoverBg);
+            root.style.setProperty('--bs-body-color',     state.darkMode ? '#e2e4f0' : '#212529');
 
-            // Body classes for SCSS scoping + CSS [data-preset] targeting
+            // Body classes for SCSS scoping
             document.body.classList.toggle('preset-snow',         state.activePreset === 'snow');
             document.body.classList.toggle('preset-light-navbar', isLightNavbar);
             document.body.setAttribute('data-preset', state.activePreset || '');
@@ -142,6 +147,7 @@ export const themeStudioService = {
                 document.body.classList.remove('o_dark_mode');
             }
 
+            // Favicon
             if (state.favicon) {
                 let faviconLink = document.querySelector("link[rel~='icon']");
                 if (!faviconLink) {
@@ -153,6 +159,7 @@ export const themeStudioService = {
                 faviconLink.href = 'data:image/x-icon;base64,' + state.favicon;
             }
 
+            // ── Injected <style> block ──
             let liveStyle = document.getElementById('theme_studio_live');
             if (!liveStyle) {
                 liveStyle = document.createElement('style');
@@ -169,10 +176,28 @@ export const themeStudioService = {
                 }
             `;
             
-            if (state.glassmorphism) {
+            // ── Navbar background ──
+            if (state.darkMode) {
+                if (state.glassmorphism) {
+                    css += `
+                        .o_main_navbar {
+                            background-color: rgba(22, 24, 32, 0.85) !important;
+                            backdrop-filter: blur(10px) !important;
+                            border-bottom: 2px solid ${p} !important;
+                        }
+                    `;
+                } else {
+                    css += `
+                        .o_main_navbar {
+                            background-color: #1a1c2e !important;
+                            border-bottom: 2px solid ${p} !important;
+                        }
+                    `;
+                }
+            } else if (state.glassmorphism) {
                 css += `
                     .o_main_navbar {
-                        background-color: rgba(${hexToRgb(state.primaryColor)}, 0.7) !important;
+                        background-color: rgba(${pRgb}, 0.7) !important;
                         backdrop-filter: blur(10px) !important;
                         border-color: transparent !important;
                     }
@@ -180,12 +205,13 @@ export const themeStudioService = {
             } else {
                 css += `
                     .o_main_navbar {
-                        background-color: var(--bs-primary) !important;
-                        border-color: var(--bs-primary) !important;
+                        background-color: ${p} !important;
+                        border-color: ${p} !important;
                     }
                 `;
             }
 
+            // ── Background image ──
             if (state.bgImage) {
                 css += `
                     .o_web_client, .oe_website_login_container {
@@ -194,7 +220,6 @@ export const themeStudioService = {
                         background-position: center !important;
                         background-attachment: fixed !important;
                     }
-                    /* Make inner views slightly transparent to see the background */
                     .o_content, .o_view_controller {
                         background-color: rgba(255, 255, 255, 0.9) !important;
                     }
@@ -204,18 +229,15 @@ export const themeStudioService = {
                 `;
             }
             
+            // ── Badges: Primary bg + auto-contrast text ──
             css += `
                 .badge.text-bg-success, .badge.text-bg-info, .badge.text-bg-warning, .badge.text-bg-danger {
-                    background-color: var(--ts-status-color) !important;
-                    color: var(--ts-text-status-color) !important;
+                    background-color: ${p} !important;
+                    color: ${badgeText} !important;
                 }
             `;
 
-            // ----------------------------------------------------------------
-            // Per-preset auto-contrast: navbar + dropdown text.
-            // Rebuilt on every color/preset change → always accurate.
-            // isLightNavbar / menuTextColor / menuHoverText computed above.
-            // ----------------------------------------------------------------
+            // ── Navbar text + dropdown (auto-contrast) ──
             css += `
                 .o_main_navbar {
                     color: ${menuTextColor} !important;
@@ -245,9 +267,9 @@ export const themeStudioService = {
                 }
                 .o-dropdown--menu,
                 .dropdown-menu {
-                    background-color: ${state.primaryColor} !important;
-                    border: ${isLightNavbar ? '1px solid rgba(0,0,0,0.10)' : 'none'} !important;
-                    box-shadow: 0 4px 16px rgba(0,0,0,${isLightNavbar ? '0.10' : '0.30'}) !important;
+                    background-color: ${state.darkMode ? '#1e2030' : p} !important;
+                    border: ${state.darkMode ? '1px solid #2a2d45' : (isLightNavbar ? '1px solid rgba(0,0,0,0.10)' : 'none')} !important;
+                    box-shadow: 0 4px 16px rgba(0,0,0,${state.darkMode ? '0.40' : (isLightNavbar ? '0.10' : '0.30')}) !important;
                     transition: background-color 0.3s ease;
                 }
                 .o-dropdown--menu .o-dropdown-item,
@@ -268,19 +290,27 @@ export const themeStudioService = {
                 }
             `;
 
-            // Light navbar: subtle bottom border so it separates from content
+            // Light navbar: subtle bottom border
             if (isLightNavbar) {
                 css += `.o_main_navbar { border-bottom: 1px solid rgba(0,0,0,0.08) !important; }`;
             }
 
+            // ── Buttons: Secondary color for primary action buttons ──
+            css += `
+                .btn-primary {
+                    background-color: ${s} !important;
+                    border-color: ${s} !important;
+                    color: ${autoContrastText(s)} !important;
+                    transition: background-color 0.3s ease, border-color 0.3s ease;
+                }
+                .btn-primary:hover, .btn-primary:focus {
+                    filter: brightness(0.9) !important;
+                }
+            `;
+
             liveStyle.textContent = css;
 
-            // ----------------------------------------------------------------
-            // Dark-mode preset accent injection.
-            // dark_mode.scss uses rgba(var(--bs-primary-rgb), …) for accents,
-            // but some elements need the exact hex value for bg/border so we
-            // inject those here, rebuilt on every preset / dark-mode toggle.
-            // ----------------------------------------------------------------
+            // ── Dark-mode accent injection ──
             let darkStyle = document.getElementById('theme_studio_dark');
             if (!darkStyle) {
                 darkStyle = document.createElement('style');
@@ -289,28 +319,23 @@ export const themeStudioService = {
             }
 
             if (state.darkMode) {
-                const p  = state.primaryColor;
-                const s  = state.secondaryColor;
-                const pRgb = hexToRgb(p);
-                const sRgb = hexToRgb(s);
-
                 darkStyle.textContent = `
-                    /* ── dark_mode preset accent overrides ── */
+                    /* ── Dark mode preset accent overrides ── */
 
-                    /* Calendar events: primary colour background */
+                    /* Calendar events: primary bg */
                     body.o_dark_mode .fc-event,
                     body.o_dark_mode .o_calendar_event,
                     body.o_dark_mode .o_event {
                         background-color: ${p} !important;
                         border-color: ${p} !important;
-                        color: #ffffff !important;
+                        color: ${badgeText} !important;
                     }
                     body.o_dark_mode .fc-event:hover,
                     body.o_dark_mode .o_calendar_event:hover {
                         filter: brightness(1.15) !important;
                     }
 
-                    /* Kanban column header underline: primary accent */
+                    /* Kanban column header: primary accent */
                     body.o_dark_mode .o_kanban_header_title {
                         border-bottom: 2px solid ${p} !important;
                     }
@@ -353,7 +378,7 @@ export const themeStudioService = {
                     body.o_dark_mode .o_activity .o_activity_icon:hover {
                         background-color: ${s} !important;
                         border-color: ${s} !important;
-                        color: #ffffff !important;
+                        color: ${autoContrastText(s)} !important;
                     }
 
                     /* Calendar: today highlight → primary tint */
@@ -378,7 +403,7 @@ export const themeStudioService = {
                     body.o_dark_mode .o_control_panel_breadcrumbs .btn:hover {
                         background-color: ${s} !important;
                         border-color: ${s} !important;
-                        color: #ffffff !important;
+                        color: ${autoContrastText(s)} !important;
                     }
 
                     /* Schedule activity hover → primary tint */
@@ -387,51 +412,58 @@ export const themeStudioService = {
                         background-color: rgba(${pRgb}, 0.22) !important;
                         border-color: ${p} !important;
                     }
+
+                    /* Badges in dark mode */
+                    body.o_dark_mode .badge.text-bg-success,
+                    body.o_dark_mode .badge.text-bg-info,
+                    body.o_dark_mode .badge.text-bg-warning,
+                    body.o_dark_mode .badge.text-bg-danger {
+                        background-color: ${p} !important;
+                        color: ${badgeText} !important;
+                    }
                 `;
             } else {
-                // Clear dark overrides when dark mode is off
                 darkStyle.textContent = '';
             }
-
         }
 
+        // ── Presets: 3-color definitions ──
+        // Each preset: { primary, secondary, text, glass, opacity }
+        // darkMode is always set to false when applying a preset.
         function applyPreset(preset) {
             const presets = {
                 // --- Odoo Brand ---
-                // Community: classic Odoo Community purple + teal accent
-                'community':  { primary: '#875a7b', secondary: '#00a09d', dark: false, glass: false, opacity: 0 },
-                // Enterprise: deep navy + gold — premium feel with glass navbar
-                'enterprise': { primary: '#1a1c2c', secondary: '#e9a21b', dark: true,  glass: true,  opacity: 0.2 },
+                'community':  { primary: '#875a7b', secondary: '#00a09d', text: '#ffffff', glass: false, opacity: 0 },
+                'enterprise': { primary: '#2563eb', secondary: '#1d4ed8', text: '#ffffff', glass: false, opacity: 0 },
                 // --- Nature ---
-                'ocean':      { primary: '#0ea5e9', secondary: '#0284c7', dark: true,  glass: true,  opacity: 0.4 },
-                'forest':     { primary: '#16a34a', secondary: '#15803d', dark: true,  glass: true,  opacity: 0.5 },
-                'sunset':     { primary: '#f97316', secondary: '#ea580c', dark: false, glass: false, opacity: 0 },
-                'lavender':   { primary: '#7c3aed', secondary: '#6d28d9', dark: true,  glass: true,  opacity: 0.3 },
-                'cherry':     { primary: '#e11d48', secondary: '#be123c', dark: true,  glass: false, opacity: 0 },
+                'ocean':      { primary: '#0ea5e9', secondary: '#0284c7', text: '#ffffff', glass: false, opacity: 0 },
+                'forest':     { primary: '#16a34a', secondary: '#15803d', text: '#ffffff', glass: false, opacity: 0 },
+                'sunset':     { primary: '#f97316', secondary: '#ea580c', text: '#ffffff', glass: false, opacity: 0 },
+                'lavender':   { primary: '#7c3aed', secondary: '#6d28d9', text: '#ffffff', glass: false, opacity: 0 },
+                'cherry':     { primary: '#e11d48', secondary: '#be123c', text: '#ffffff', glass: false, opacity: 0 },
                 // --- Dark / Tech ---
-                'cyberpunk':  { primary: '#d946ef', secondary: '#a21caf', dark: true,  glass: true,  opacity: 0.6 },
-                'midnight':   { primary: '#1e3a5f', secondary: '#2563eb', dark: true,  glass: true,  opacity: 0.5 },
-                'carbon':     { primary: '#18181b', secondary: '#3f3f46', dark: true,  glass: false, opacity: 0 },
-                'slate':      { primary: '#334155', secondary: '#475569', dark: true,  glass: false, opacity: 0 },
-                'hacker':     { primary: '#052e16', secondary: '#16a34a', dark: true,  glass: true,  opacity: 0.7 },
-                // --- Minimal / Light ---
-                'minimal':    { primary: '#1f2937', secondary: '#4b5563', dark: false, glass: false, opacity: 0 },
-                'snow':       { primary: '#f8fafc', secondary: '#cbd5e1', dark: false, glass: false, opacity: 0 },
-                'sand':       { primary: '#d97706', secondary: '#b45309', dark: false, glass: false, opacity: 0 },
-                'rose':       { primary: '#f43f5e', secondary: '#e11d48', dark: false, glass: false, opacity: 0 },
-                // --- Brand-inspired ---
-                'odoo':       { primary: '#714b67', secondary: '#017e84', dark: false, glass: false, opacity: 0 },
-                'indigo':     { primary: '#4338ca', secondary: '#6366f1', dark: true,  glass: true,  opacity: 0.4 },
-                'teal':       { primary: '#0d9488', secondary: '#0f766e', dark: true,  glass: false, opacity: 0 },
-                'coral':      { primary: '#f43f5e', secondary: '#fb923c', dark: false, glass: false, opacity: 0 },
-                'plum':       { primary: '#9333ea', secondary: '#7e22ce', dark: true,  glass: true,  opacity: 0.3 },
-                'azure':      { primary: '#0369a1', secondary: '#0ea5e9', dark: true,  glass: true,  opacity: 0.4 },
+                'cyberpunk':  { primary: '#d946ef', secondary: '#a21caf', text: '#ffffff', glass: false, opacity: 0 },
+                'midnight':   { primary: '#1e3a5f', secondary: '#2563eb', text: '#ffffff', glass: false, opacity: 0 },
+                'carbon':     { primary: '#18181b', secondary: '#3f3f46', text: '#ffffff', glass: false, opacity: 0 },
+                'snow':       { primary: '#f8fafc', secondary: '#cbd5e1', text: '#1e293b', glass: false, opacity: 0 },
+                'minimal':    { primary: '#1f2937', secondary: '#4b5563', text: '#ffffff', glass: false, opacity: 0 },
+                // --- Modern ---
+                'glass':      { primary: '#0f172a', secondary: '#6366f1', text: '#e2e8f0', glass: true,  opacity: 0.3 },
+                'neon':       { primary: '#0a0a0a', secondary: '#22d3ee', text: '#a5f3fc', glass: false, opacity: 0 },
+                'pastel':     { primary: '#fbbf24', secondary: '#f472b6', text: '#1e293b', glass: false, opacity: 0 },
+                'desert':     { primary: '#d97706', secondary: '#b45309', text: '#ffffff', glass: false, opacity: 0 },
+                'tropical':   { primary: '#059669', secondary: '#0d9488', text: '#ffffff', glass: false, opacity: 0 },
+                'sakura':     { primary: '#ec4899', secondary: '#f9a8d4', text: '#1e293b', glass: false, opacity: 0 },
+                'autumn':     { primary: '#c2410c', secondary: '#a16207', text: '#ffffff', glass: false, opacity: 0 },
+                'winter':     { primary: '#1e40af', secondary: '#7dd3fc', text: '#ffffff', glass: false, opacity: 0 },
+                'spring':     { primary: '#65a30d', secondary: '#84cc16', text: '#1e293b', glass: false, opacity: 0 },
             };
             if (presets[preset]) {
-                state.activePreset = preset;           // ← track before applyLiveCss
+                state.activePreset = preset;
                 state.primaryColor = presets[preset].primary;
                 state.secondaryColor = presets[preset].secondary;
-                state.darkMode = presets[preset].dark;
+                state.textColor = presets[preset].text;
+                state.darkMode = false;
                 state.glassmorphism = presets[preset].glass;
                 state.overlayOpacity = presets[preset].opacity;
                 applyLiveCss();
@@ -446,6 +478,7 @@ export const themeStudioService = {
             get isOpen() { return state.isOpen; },
             get primaryColor() { return state.primaryColor; },
             get secondaryColor() { return state.secondaryColor; },
+            get textColor() { return state.textColor; },
             get bgImage() { return state.bgImage; },
             get favicon() { return state.favicon; },
             get darkMode() { return state.darkMode; },
@@ -464,6 +497,7 @@ export const themeStudioService = {
             
             set primaryColor(val) { state.primaryColor = val; applyLiveCss(); },
             set secondaryColor(val) { state.secondaryColor = val; applyLiveCss(); },
+            set textColor(val) { state.textColor = val; applyLiveCss(); },
             set bgImage(val) { state.bgImage = val; applyLiveCss(); },
             set favicon(val) { state.favicon = val; applyLiveCss(); },
             set darkMode(val) { state.darkMode = val; applyLiveCss(); },

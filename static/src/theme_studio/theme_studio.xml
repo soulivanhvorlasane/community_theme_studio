@@ -51,33 +51,21 @@
 
                             <div class="ts-sb-section-body">
                                 <div class="ts-sb-row">
-                                    <label>BG Image</label>
-                                    <select class="ts-sb-dropdown">
-                                        <option>Select</option>
-                                    </select>
+                                    <label>Primary</label>
+                                    <div class="d-flex gap-2">
+                                        <input type="color" t-att-value="tsState.primaryColor" t-on-input="onPrimaryColorChange" class="ts-color-input"/>
+                                    </div>
                                 </div>
                                 <div class="ts-sb-row">
-                                    <label>Main</label>
+                                    <label>Secondary</label>
                                     <div class="d-flex gap-2">
-                                        <input type="color" t-model="tsState.primaryColor" class="ts-color-input"/>
+                                        <input type="color" t-att-value="tsState.secondaryColor" t-on-input="onSecondaryColorChange" class="ts-color-input"/>
                                     </div>
                                 </div>
                                 <div class="ts-sb-row">
                                     <label>Text</label>
                                     <div class="d-flex gap-2">
-                                        <input type="color" t-model="tsState.textColor" class="ts-color-input"/>
-                                    </div>
-                                </div>
-                                <div class="ts-sb-row">
-                                    <label>Text Status</label>
-                                    <div class="d-flex gap-2">
-                                        <input type="color" t-model="tsState.textStatusColor" class="ts-color-input"/>
-                                    </div>
-                                </div>
-                                <div class="ts-sb-row">
-                                    <label>Status Color</label>
-                                    <div class="d-flex gap-2">
-                                        <input type="color" t-model="tsState.statusColor" class="ts-color-input"/>
+                                        <input type="color" t-att-value="tsState.textColor" t-on-input="onTextColorChange" class="ts-color-input"/>
                                     </div>
                                 </div>
                             </div>
@@ -254,6 +242,7 @@
                                                 <div class="ts-preset-swatch-row">
                                                     <div class="ts-preset-swatch" t-attf-style="background:{{preset.primary}};"/>
                                                     <div class="ts-preset-swatch" t-attf-style="background:{{preset.secondary}};"/>
+                                                    <div class="ts-preset-swatch" t-attf-style="background:{{preset.text}};"/>
                                                 </div>
                                                 <span class="ts-preset-label" t-esc="preset.label"/>
                                             </button>

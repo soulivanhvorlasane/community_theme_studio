@@ -57,6 +57,72 @@
 }
 
 // ============================================================================
+// 0a. Navbar (top bar)
+// ============================================================================
+body.o_dark_mode {
+
+    .o_main_navbar {
+        background-color: #1a1c2e !important;
+        color: #ffffff !important;
+        border-bottom: 2px solid var(--dm-accent) !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        // All text inside navbar
+        .o_menu_brand,
+        .o_menu_toggle,
+        .o_menu_sections .o_nav_entry,
+        .o_menu_sections .dropdown-toggle,
+        .o_menu_systray .o-dropdown > .o-dropdown--toggler,
+        .o_menu_systray .o_notification_counter {
+            color: #ffffff !important;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        // Hover states inside navbar
+        .o_menu_sections .o_nav_entry:hover,
+        .o_menu_sections .o_nav_entry:focus,
+        .o_menu_sections .dropdown-toggle:hover,
+        .o_menu_sections .dropdown-toggle:focus,
+        .o_menu_brand:hover,
+        .o_menu_toggle:hover {
+            background-color: var(--dm-bg-4) !important;
+            color: #ffffff !important;
+        }
+
+        // Transparent children
+        .o_menu_sections,
+        .o_menu_systray,
+        .o_menu_brand,
+        .o_menu_sections > * {
+            background-color: transparent !important;
+        }
+    }
+
+    // Dropdown menus (navbar & systray)
+    .o-dropdown--menu,
+    .dropdown-menu {
+        background-color: var(--dm-bg-2) !important;
+        border: 1px solid var(--dm-border) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+
+        .o-dropdown-item,
+        .dropdown-item,
+        .dropdown-header {
+            color: var(--dm-text) !important;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .o-dropdown-item:hover,
+        .o-dropdown-item:focus,
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: var(--dm-bg-4) !important;
+            color: #ffffff !important;
+        }
+    }
+}
+
+// ============================================================================
 // 0.  App Shell
 // ============================================================================
 body.o_dark_mode {

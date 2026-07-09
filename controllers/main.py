@@ -11,19 +11,17 @@ class ThemeStudioController(http.Controller):
         icp = request.env['ir.config_parameter'].sudo()
         return {
             'primary_color': icp.get_param('theme_studio.primary_color', '#714B67'),
-            'secondary_color': icp.get_param('theme_studio.secondary_color', '#8f8f8f'),
+            'secondary_color': icp.get_param('theme_studio.secondary_color', '#017e84'),
             'bg_image': icp.get_param('theme_studio.bg_image', False),
             'dark_mode': icp.get_param('theme_studio.dark_mode', 'False') == 'True',
             'glassmorphism': icp.get_param('theme_studio.glassmorphism', 'False') == 'True',
             'overlay_opacity': float(icp.get_param('theme_studio.overlay_opacity', '0')),
-            'text_color': icp.get_param('theme_studio.text_color', '#212529'),
-            'text_status_color': icp.get_param('theme_studio.text_status_color', '#ffffff'),
-            'status_color': icp.get_param('theme_studio.status_color', '#17a2b8'),
+            'text_color': icp.get_param('theme_studio.text_color', '#ffffff'),
             'favicon': icp.get_param('theme_studio.favicon', False),
         }
 
     @http.route('/theme_studio/save_config', type='json', auth='user')
-    def save_config(self, primary_color, secondary_color, bg_image=False, dark_mode=False, glassmorphism=False, overlay_opacity=0, text_color='#212529', text_status_color='#ffffff', status_color='#17a2b8', favicon=False):
+    def save_config(self, primary_color, secondary_color, bg_image=False, dark_mode=False, glassmorphism=False, overlay_opacity=0, text_color='#ffffff', favicon=False):
         if not request.env.user.has_group('base.group_system'):
             return {'error': 'Access Denied'}
             
@@ -34,8 +32,6 @@ class ThemeStudioController(http.Controller):
         icp.set_param('theme_studio.glassmorphism', str(glassmorphism))
         icp.set_param('theme_studio.overlay_opacity', str(overlay_opacity))
         icp.set_param('theme_studio.text_color', text_color)
-        icp.set_param('theme_studio.text_status_color', text_status_color)
-        icp.set_param('theme_studio.status_color', status_color)
         if bg_image is not False:
             icp.set_param('theme_studio.bg_image', bg_image)
         if favicon is not False:
@@ -47,10 +43,8 @@ class ThemeStudioController(http.Controller):
     def style_css(self, **kw):
         icp = request.env['ir.config_parameter'].sudo()
         primary = icp.get_param('theme_studio.primary_color', '#714B67')
-        secondary = icp.get_param('theme_studio.secondary_color', '#8f8f8f')
-        text_color = icp.get_param('theme_studio.text_color', '#212529')
-        text_status_color = icp.get_param('theme_studio.text_status_color', '#ffffff')
-        status_color = icp.get_param('theme_studio.status_color', '#17a2b8')
+        secondary = icp.get_param('theme_studio.secondary_color', '#017e84')
+        text_color = icp.get_param('theme_studio.text_color', '#ffffff')
         bg_image_b64 = icp.get_param('theme_studio.bg_image', '')
 
         # Function to convert hex to rgb string for Bootstrap variables
@@ -66,6 +60,7 @@ class ThemeStudioController(http.Controller):
         primary_rgb = hex_to_rgb(primary)
         secondary_rgb = hex_to_rgb(secondary)
 
+        # Basic fallback CSS just in case JS hasn't loaded (JS handles the real-time auto-contrast)
         css = f"""
 :root {{
     --bs-primary: {primary} !important;
@@ -74,9 +69,7 @@ class ThemeStudioController(http.Controller):
     --bs-secondary-rgb: {secondary_rgb} !important;
     --o-brand-primary: {primary} !important;
     --o-brand-odoo: {primary} !important;
-    --bs-body-color: {text_color} !important;
-    --ts-status-color: {status_color} !important;
-    --ts-text-status-color: {text_status_color} !important;
+    --ts-text-color: {text_color} !important;
 }}
 """
 
@@ -105,8 +98,8 @@ class ThemeStudioController(http.Controller):
 
         css += f"""
 .btn-primary {{
-    background-color: var(--bs-primary) !important;
-    border-color: var(--bs-primary) !important;
+    background-color: var(--bs-secondary) !important;
+    border-color: var(--bs-secondary) !important;
 }}
 
 .text-primary {{
@@ -118,8 +111,8 @@ class ThemeStudioController(http.Controller):
 }}
 
 .badge.text-bg-success, .badge.text-bg-info, .badge.text-bg-warning, .badge.text-bg-danger {{
-    background-color: var(--ts-status-color) !important;
-    color: var(--ts-text-status-color) !important;
+    background-color: var(--bs-primary) !important;
+    color: var(--ts-text-color) !important;
 }}
 """
         if bg_image_b64:
