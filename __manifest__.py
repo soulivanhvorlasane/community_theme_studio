@@ -16,6 +16,8 @@
     'assets': {
         'web.assets_backend': [
             'community_theme_studio/static/src/theme_studio/**/*',
+            'community_theme_studio/static/src/theme_studio/custom_group_by_item_patch.js',
+            'community_theme_studio/static/src/theme_studio/custom_group_by_item_patch.xml',
             'community_theme_studio/static/src/webclient/**/*',
         ],
         'web.assets_frontend': [

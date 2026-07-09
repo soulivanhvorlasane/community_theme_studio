@@ -331,7 +331,7 @@ export const themeStudioService = {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
                 }
-                /* Native Select inside search panels */
+                /* Native Select inside search panels (fallback) */
                 .o_control_panel .dropdown-menu select,
                 .o_search_bar_menu select {
                     background-color: rgba(255, 255, 255, 0.05) !important;
@@ -350,6 +350,12 @@ export const themeStudioService = {
                 .o_search_bar_menu select:focus option:checked {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
+                }
+                
+                /* Custom Dropdown Patch styling to replace the native select scrollbox */
+                .o_add_custom_group_menu_dropdown {
+                    max-height: 250px !important;
+                    overflow-y: auto !important;
                 }
             `;
 
