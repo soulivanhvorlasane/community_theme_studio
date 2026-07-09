@@ -1,57 +1,58 @@
 // ============================================================================
-// menu_theme.scss – Dynamic Menu Bar Styling for Odoo 18
+// menu_theme.scss – Dynamic Topbar Menu Styling for Odoo 18
 //
-// Odoo 18 exposes named CSS custom properties on .o_main_navbar that act as
-// design tokens. We override them here so our palette colors flow through
-// Odoo's own rendering pipeline without fighting specificity wars.
+// NOTE: $o-theme-palette does NOT exist in Odoo 18.
+// The correct SCSS variables are $o-brand-primary and $o-brand-secondary.
+// These are used as compile-time fallbacks only.
 //
-// Runtime values are injected by menu_theme.js via:
+// At runtime, menu_theme.js injects:
 //   --o-menu-primary   (from theme_studio.primaryColor)
 //   --o-menu-secondary (from theme_studio.secondaryColor)
+// so colors update instantly when the user changes palette in Theme Studio.
 //
-// Compile-time SCSS fallbacks use $o-brand-primary / $o-brand-secondary
-// so the styles are correct even before the JS service fires.
+// NOTE: .o_menu_item does NOT exist in Odoo 18.
+// Odoo 18 uses: .o_nav_entry, .dropdown-toggle, .o_menu_brand, .o_menu_toggle
 // ============================================================================
 
 // ------------------------------------------------------------------
-// 1. Main Navbar – override Odoo's own design token
-//    $o-navbar-background is what Odoo sets as the default.
-//    We redirect it to our palette variable at the element level.
+// 1. Topbar background – Primary Color
+//    Overrides Odoo's $o-navbar-background with our palette variable.
 // ------------------------------------------------------------------
 .o_main_navbar {
     background: var(--o-menu-primary, #{$o-brand-primary}) !important;
     transition: background-color 0.3s ease;
 
-    // Force readable text for all direct navbar text nodes
+    // Keep all text readable in white
     color: #ffffff;
 
-    // Override Odoo's own entry color tokens so text stays white
+    // Override Odoo 18's own internal color tokens so text stays white
     --NavBar-entry-color: #ffffff;
     --NavBar-entry-color--active: #ffffff;
-}
 
-// ------------------------------------------------------------------
-// 2. Navbar entry transitions (Odoo 18 real class names)
-// ------------------------------------------------------------------
-.o_main_navbar .o_menu_sections .o_nav_entry,
-.o_main_navbar .o_menu_sections .dropdown-toggle,
-.o_main_navbar .o_menu_brand,
-.o_main_navbar .o_menu_toggle {
-    transition: background-color 0.3s ease !important;
-    color: #ffffff !important;
-}
-
-// ------------------------------------------------------------------
-// 3. Hover states – Secondary Color
-//    We override Odoo's own hover token so it uses our palette.
-// ------------------------------------------------------------------
-.o_main_navbar {
+    // Pre-wire hover/focus/active tokens to secondary color for all entries
     --NavBar-entry-backgroundColor--hover: var(--o-menu-secondary, #{$o-brand-secondary});
     --NavBar-entry-backgroundColor--focus: var(--o-menu-secondary, #{$o-brand-secondary});
     --NavBar-entry-backgroundColor--active: var(--o-menu-secondary, #{$o-brand-secondary});
 }
 
-// Explicit override for both entry types to ensure full coverage
+// ------------------------------------------------------------------
+// 2. Transitions on all navbar entry types (Odoo 18 real class names)
+//    .o_menu_item does NOT exist in Odoo 18.
+// ------------------------------------------------------------------
+.o_main_navbar .o_menu_sections .o_nav_entry,
+.o_main_navbar .o_menu_sections .dropdown-toggle,
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_menu_toggle {
+    color: #ffffff !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+    padding-inline: 10px;
+}
+
+// ------------------------------------------------------------------
+// 3. Hover state – Secondary Color
+//    Equivalent to .o_menu_item:hover in the prompt, using Odoo 18 selectors.
+// ------------------------------------------------------------------
 .o_main_navbar .o_menu_sections .o_nav_entry:hover,
 .o_main_navbar .o_menu_sections .o_nav_entry:focus,
 .o_main_navbar .o_menu_sections .dropdown-toggle:hover,
@@ -63,9 +64,8 @@
 }
 
 // ------------------------------------------------------------------
-// 4. Dropdown panel – Primary Color background
-//    Odoo 18 Owl Dropdown renders .o-dropdown--menu and .dropdown-menu
-//    teleported into <body>, so no parent selector needed.
+// 4. Dropdown panel – Primary Color
+//    Rendered outside .o_main_navbar (teleported to <body> by Odoo 18 Owl)
 // ------------------------------------------------------------------
 .o-dropdown--menu,
 .dropdown-menu {
@@ -77,14 +77,15 @@
 }
 
 // ------------------------------------------------------------------
-// 5. Dropdown items – white text, Secondary Color on hover
+// 5. Dropdown items – Secondary Color on hover
 // ------------------------------------------------------------------
 .o-dropdown--menu .o-dropdown-item,
 .o-dropdown--menu .dropdown-item,
 .dropdown-menu .dropdown-item,
 .dropdown-menu .dropdown-header {
     color: #ffffff !important;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
 }
 
 .o-dropdown--menu .o-dropdown-item:hover,
