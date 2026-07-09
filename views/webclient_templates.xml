@@ -5,4 +5,11 @@
             <link rel="stylesheet" type="text/css" href="/theme_studio/style.css" id="theme_studio_styles"/>
         </xpath>
     </template>
+
+    <!-- Frontend Assets for Dropdown Theme -->
+    <template id="assets_frontend_dropdown_theme" inherit_id="web.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/community_theme_studio/static/src/webclient/dropdown_theme.scss"/>
+        </xpath>
+    </template>
 </odoo>
