@@ -17,9 +17,9 @@
     background-image: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)) !important;
 }
 
-// Style the dropdown menus to match the secondary theme color (applied globally since Odoo mounts them in the body)
+// Style the dropdown menus to match the primary theme color (applied globally since Odoo mounts them in the body)
 .dropdown-menu {
-    background-color: var(--dropdown-menu-bg, map-get($theme-colors, 'secondary')) !important;
+    background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
     border: none !important;
     box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
 }
@@ -31,6 +31,6 @@
 
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus {
-    background-color: var(--dropdown-menu-bg, map-get($theme-colors, 'secondary')) !important;
+    background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
     background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)) !important;
 }
