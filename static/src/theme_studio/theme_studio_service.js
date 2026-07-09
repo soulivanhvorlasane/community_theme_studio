@@ -142,9 +142,11 @@ export const themeStudioService = {
             if (state.darkMode) {
                 root.setAttribute('data-bs-theme', 'dark');
                 document.body.classList.add('o_dark_mode');
+                document.cookie = "color_scheme=dark; path=/; max-age=31536000";
             } else {
                 root.setAttribute('data-bs-theme', 'light');
                 document.body.classList.remove('o_dark_mode');
+                document.cookie = "color_scheme=light; path=/; max-age=31536000";
             }
 
             // Favicon
