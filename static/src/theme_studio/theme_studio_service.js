@@ -320,6 +320,85 @@ export const themeStudioService = {
             `;
             css += calendarCSS;
 
+            // ── Custom Filter Dialog CSS ──
+            const customFilterCSS = `
+                /* 1. General Modal Styles (.o_dialog) */
+                .o_dialog .modal-content {
+                    background-color: ${p} !important;
+                    color: ${menuHoverText} !important;
+                    border: 1px solid rgba(255, 255, 255, 0.1);
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                }
+                .o_dialog .modal-header, 
+                .o_dialog .modal-footer {
+                    background-color: rgba(0, 0, 0, 0.2) !important;
+                    border-color: rgba(255, 255, 255, 0.1) !important;
+                }
+                .o_dialog .btn-close {
+                    filter: invert(1) grayscale(100%) brightness(200%);
+                }
+                .o_dialog .modal-footer .btn-primary {
+                    background-color: ${s} !important;
+                    border-color: ${s} !important;
+                    color: ${menuHoverText} !important;
+                    transition: all 0.3s ease;
+                }
+                .o_dialog .modal-footer .btn-primary:hover {
+                    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+                    opacity: 0.9;
+                }
+                .o_dialog .modal-footer .btn-secondary {
+                    background-color: #495057 !important;
+                    border-color: #495057 !important;
+                    color: #ffffff !important;
+                    transition: all 0.3s ease;
+                }
+                .o_dialog .modal-footer .btn-secondary:hover {
+                    background-color: #343a40 !important;
+                }
+
+                /* 2. Custom Filter / Domain Selector */
+                .o_domain_selector input, 
+                .o_domain_selector select, 
+                .o_domain_selector .o_input, 
+                .o_domain_selector .o_datepicker_input {
+                    background-color: ${s} !important;
+                    border-color: rgba(255, 255, 255, 0.2) !important;
+                    color: ${menuHoverText} !important;
+                    transition: all 0.3s ease;
+                }
+                .o_domain_selector input:focus, 
+                .o_domain_selector select:focus, 
+                .o_domain_selector .o_input:focus, 
+                .o_domain_selector .o_datepicker_input:focus {
+                    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+                }
+                .o_domain_selector select option {
+                    background-color: #2b2b2b !important;
+                    color: #ffffff !important;
+                }
+                .o_domain_selector .fa, 
+                .o_domain_selector .fa-plus, 
+                .o_domain_selector .fa-sitemap, 
+                .o_domain_selector .fa-trash, 
+                .o_domain_selector .o_domain_leaf_icon_button, 
+                .o_domain_selector .o_domain_node_icon_button {
+                    color: ${s} !important;
+                    transition: color 0.3s ease, transform 0.3s ease;
+                }
+                .o_domain_selector .fa:hover, 
+                .o_domain_selector .o_domain_leaf_icon_button:hover, 
+                .o_domain_selector .o_domain_node_icon_button:hover {
+                    filter: brightness(1.2);
+                    transform: scale(1.1);
+                }
+                .o_domain_selector .o_domain_leaf_info, 
+                .o_domain_selector .o_domain_node_info {
+                    color: ${menuHoverText} !important;
+                }
+            `;
+            css += customFilterCSS;
+
             // ── Background image ──
             if (state.bgImage) {
                 css += `
