@@ -2,11 +2,17 @@
 // (Odoo usually injects this, but importing prevents undefined variable errors)
 @import "web/static/lib/bootstrap/scss/_variables";
 
-.o_main_navbar .o_menu_item {
-    transition: background-color 0.3s ease;
+.o_main_navbar .o_menu_sections .o_nav_entry,
+.o_main_navbar .o_menu_sections .dropdown-toggle,
+.o_main_navbar .o_menu_brand,
+.o_main_navbar .o_menu_toggle {
+    transition: background-color 0.3s ease, background-image 0.3s ease;
 }
 
-.o_main_navbar .o_menu_item:hover {
+.o_main_navbar .o_menu_sections .o_nav_entry:hover,
+.o_main_navbar .o_menu_sections .dropdown-toggle:hover,
+.o_main_navbar .o_menu_brand:hover,
+.o_main_navbar .o_menu_toggle:hover {
     background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
     background-image: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)) !important;
 }
