@@ -15,7 +15,23 @@ select.o_add_custom_group_menu.focus,
 }
 
 /* Also ensure the checked options inside receive the same treatment */
-select.o_add_custom_group_menu option:checked {
+select.o_add_custom_group_menu option:checked,
+select.o_add_custom_group_menu option:hover,
+.o_domain_selector select.o_input option:checked,
+.o_domain_selector select.o_input option:hover,
+.o_domain_selector select option:checked,
+.o_domain_selector select option:hover {
     background-color: var(--bs-secondary) !important;
     color: var(--o-menu-hover-text, #ffffff) !important;
+    box-shadow: 0 0 10px 100px var(--bs-secondary) inset !important;
+}
+
+/* Base custom filter select styling */
+.o_domain_selector select.o_input {
+    background-color: var(--bs-secondary) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+.o_domain_selector select.o_input:focus {
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
 }

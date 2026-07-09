@@ -377,6 +377,12 @@ export const themeStudioService = {
                     background-color: #2b2b2b !important;
                     color: #ffffff !important;
                 }
+                .o_domain_selector select option:checked,
+                .o_domain_selector select option:hover {
+                    background-color: ${s} !important;
+                    color: ${menuHoverText} !important;
+                    box-shadow: 0 0 10px 100px ${s} inset !important;
+                }
                 .o_domain_selector .fa, 
                 .o_domain_selector .fa-plus, 
                 .o_domain_selector .fa-sitemap, 
