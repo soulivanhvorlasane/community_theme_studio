@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="web.CustomGroupByItemPatch" t-inherit="web.CustomGroupByItem" t-inherit-mode="extension">
+        <xpath expr="//select" position="replace">
+            <Dropdown class="'o_add_custom_group_menu_dropdown o_menu_item o_navigable w-100'"
+                      togglerClass="'o_add_custom_group_menu_toggler dropdown-item w-100 text-start'"
+                      title="'Add Custom Group'">
+                <t t-set-slot="toggler">
+                    Add Custom Group
+                </t>
+                <t t-set-slot="content">
+                    <t t-foreach="props.fields" t-as="field" t-key="field.name">
+                        <t t-if="field.type !== 'properties' and !field.isProperty">
+                            <DropdownItem onSelected="() => this.onCustomGroupSelected(field.name)">
+                                <t t-esc="field.string"/>
+                            </DropdownItem>
+                        </t>
+                    </t>
+                </t>
+            </Dropdown>
+        </xpath>
+    </t>
+</templates>
