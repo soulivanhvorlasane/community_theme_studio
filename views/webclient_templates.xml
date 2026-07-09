@@ -5,11 +5,4 @@
             <link rel="stylesheet" type="text/css" href="/theme_studio/style.css" id="theme_studio_styles"/>
         </xpath>
     </template>
-
-    <template id="assets_frontend_theme_studio" inherit_id="web.assets_frontend">
-        <xpath expr="." position="inside">
-            <link rel="stylesheet" type="text/scss" href="/community_theme_studio/static/src/webclient/hover_menu.scss"/>
-            <script type="text/javascript" src="/community_theme_studio/static/src/webclient/hover_menu.js"></script>
-        </xpath>
-    </template>
 </odoo>

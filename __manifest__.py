@@ -18,6 +18,10 @@
             'community_theme_studio/static/src/theme_studio/**/*',
             'community_theme_studio/static/src/webclient/**/*',
         ],
+        'web.assets_frontend': [
+            'community_theme_studio/static/src/webclient/hover_menu.scss',
+            'community_theme_studio/static/src/webclient/hover_menu.js',
+        ],
     },
     'installable': True,
     'application': False,
