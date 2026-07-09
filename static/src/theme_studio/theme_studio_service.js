@@ -309,6 +309,14 @@ export const themeStudioService = {
                     background-color: rgba(${sRgb}, 0.05) !important;
                     box-shadow: inset 0 0 0 2px ${s} !important;
                 }
+                .o_calendar_view .fc-event {
+                    background-color: ${s} !important;
+                    border-color: ${s} !important;
+                    color: ${menuHoverText} !important;
+                }
+                .o_calendar_view .fc-event .fc-bg {
+                    background-color: transparent !important;
+                }
             `;
             css += calendarCSS;
 

@@ -1,14 +1,6 @@
 // ============================================================================
-// calendar_theme.scss – Palette-driven Calendar View and DatePicker styles
+// calendar_theme.scss – Base Calendar View and DatePicker styles
 // ============================================================================
-
-@function auto-contrast($bg-color) {
-  @if (lightness($bg-color) > 60) {
-    @return #222; // dark text
-  } @else {
-    @return #fff; // light text
-  }
-}
 
 // ----------------------------------------------------------------------------
 // 1. Date Picker Dropdown (.o_datetime_picker)
@@ -16,12 +8,12 @@
 .o_datetime_picker {
     // Header
     .o_datetime_picker_header {
-        background-color: map-get($o-theme-palette, primary) !important;
-        color: auto-contrast(map-get($o-theme-palette, primary)) !important;
+        background-color: var(--bs-primary) !important;
+        color: var(--o-menu-hover-text, #ffffff) !important;
         border-radius: 8px 8px 0 0;
         
         .btn, .o_datetime_button {
-            color: auto-contrast(map-get($o-theme-palette, primary)) !important;
+            color: var(--o-menu-hover-text, #ffffff) !important;
             transition: background-color 0.3s ease;
             &:hover {
                 background-color: rgba(255, 255, 255, 0.2) !important;
@@ -36,22 +28,23 @@
         transition: all 0.3s ease;
         
         &:hover:not(.o_out_of_range) {
-            background-color: rgba(map-get($o-theme-palette, secondary), 0.15) !important;
+            background-color: var(--bs-secondary) !important;
+            opacity: 0.8;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
     }
 
     // Selected ranges
     .o_selected:not(.o_select_start):not(.o_select_end) {
-        background-color: rgba(map-get($o-theme-palette, secondary), 0.3) !important;
+        background-color: var(--bs-secondary) !important;
+        opacity: 0.5;
     }
 
     // Start, End, and Highlighted circles
     .o_highlighted:before,
     .o_select_start:before,
     .o_select_end:before {
-        background-color: map-get($o-theme-palette, secondary) !important;
-        box-shadow: 0 2px 8px rgba(map-get($o-theme-palette, secondary), 0.4) !important;
+        background-color: var(--bs-secondary) !important;
         border: none !important;
     }
 
@@ -59,12 +52,12 @@
     .o_select_start,
     .o_select_end,
     .o_highlighted {
-        color: auto-contrast(map-get($o-theme-palette, secondary)) !important;
+        color: var(--o-menu-hover-text, #ffffff) !important;
     }
 
     // Today's date (Current) - distinct border
     .o_current:not(.o_select_start):not(.o_select_end):not(.o_highlighted):before {
-        box-shadow: inset 0 0 0 2px map-get($o-theme-palette, secondary) !important;
+        box-shadow: inset 0 0 0 2px var(--bs-secondary) !important;
         background-color: transparent !important;
     }
 }
@@ -75,8 +68,8 @@
 .o_calendar_view {
     // Header navigation
     .fc-header-toolbar {
-        background-color: map-get($o-theme-palette, primary) !important;
-        color: auto-contrast(map-get($o-theme-palette, primary)) !important;
+        background-color: var(--bs-primary) !important;
+        color: var(--o-menu-hover-text, #ffffff) !important;
         padding: 10px;
         border-radius: 8px;
         
@@ -92,17 +85,27 @@
     
     // Today highlight
     .fc-day-today {
-        background-color: rgba(map-get($o-theme-palette, secondary), 0.05) !important;
-        box-shadow: inset 0 0 0 2px map-get($o-theme-palette, secondary) !important;
+        background-color: var(--bs-secondary) !important;
+        opacity: 0.1;
+        box-shadow: inset 0 0 0 2px var(--bs-secondary) !important;
     }
     
     // Event highlights
     .fc-event {
+        background-color: var(--bs-secondary) !important;
+        border-color: var(--bs-secondary) !important;
+        color: var(--o-menu-hover-text, #ffffff) !important;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         border-radius: 4px;
         &:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            opacity: 0.9;
+        }
+        
+        // Remove standard event background pseudo elements in Odoo calendar
+        .fc-bg {
+            background-color: transparent !important;
         }
     }
 }
