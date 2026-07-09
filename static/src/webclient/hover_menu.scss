@@ -16,3 +16,21 @@
     background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
     background-image: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)) !important;
 }
+
+// Style the dropdown menus to match the primary theme color
+.o_main_navbar .dropdown-menu {
+    background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
+    border: none !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+}
+
+.o_main_navbar .dropdown-menu .dropdown-item, 
+.o_main_navbar .dropdown-menu .dropdown-header {
+    color: #ffffff !important;
+}
+
+.o_main_navbar .dropdown-menu .dropdown-item:hover,
+.o_main_navbar .dropdown-menu .dropdown-item:focus {
+    background-color: transparent !important;
+    background-image: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)) !important;
+}
