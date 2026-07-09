@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates xml:space="preserve">
+
+    <!-- Overwrite Odoo's native CustomGroupByItem template to replace the unstyleable <select> with a stylized <Dropdown> -->
+    <t t-name="web.CustomGroupByItem">
+        <Dropdown menuClass="'o_add_custom_group_menu_dropdown overflow-auto'" togglerClass="'o_add_custom_group_menu o_menu_item dropdown-item o-navigable text-start d-flex justify-content-between align-items-center w-100 border-0 bg-transparent'">
+            <span class="d-block w-100 text-start">Add Custom Group</span>
+            <t t-set-slot="content">
+                <t t-foreach="props.fields" t-as="field" t-key="field.name">
+                    <DropdownItem t-if="field.type !== 'properties' and !field.isProperty"
+                        onSelected="() => this.props.onAddCustomGroup(field.name)"
+                        t-esc="field.string" />
+                </t>
+            </t>
+        </Dropdown>
+    </t>
+
+</templates>
