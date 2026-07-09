@@ -6,7 +6,7 @@
                       togglerClass="'o_add_custom_group_menu_toggler dropdown-item w-100 text-start'"
                       title="'Add Custom Group'">
                 <t t-set-slot="toggler">
-                    Add Custom Group
+                    <span>Add Custom Group</span>
                 </t>
                 <t t-set-slot="content">
                     <t t-foreach="props.fields" t-as="field" t-key="field.name">
