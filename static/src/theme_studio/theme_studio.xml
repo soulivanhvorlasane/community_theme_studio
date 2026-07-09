@@ -247,11 +247,17 @@
                                     <i class="fa fa-magic"/> Presets
                                 </div>
                                 <div class="ts-section-body">
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('ocean')">Ocean</button>
-                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('forest')">Forest</button>
-                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('cyberpunk')">Cyberpunk</button>
-                                        <button class="ts-btn-outline" t-on-click="() => this.onPresetClick('minimal')">Minimal</button>
+                                    <div class="ts-preset-grid">
+                                        <t t-foreach="presets" t-as="preset" t-key="preset.id">
+                                            <button class="ts-preset-card" t-on-click="() => this.onPresetClick(preset.id)"
+                                                    t-att-title="preset.label">
+                                                <div class="ts-preset-swatch-row">
+                                                    <div class="ts-preset-swatch" t-attf-style="background:{{preset.primary}};"/>
+                                                    <div class="ts-preset-swatch" t-attf-style="background:{{preset.secondary}};"/>
+                                                </div>
+                                                <span class="ts-preset-label" t-esc="preset.label"/>
+                                            </button>
+                                        </t>
                                     </div>
                                 </div>
                             </div>

@@ -174,10 +174,30 @@ export const themeStudioService = {
 
         function applyPreset(preset) {
             const presets = {
-                'ocean': { primary: '#0ea5e9', secondary: '#38bdf8', dark: true, glass: true, opacity: 0.4 },
-                'forest': { primary: '#16a34a', secondary: '#4ade80', dark: true, glass: true, opacity: 0.5 },
-                'cyberpunk': { primary: '#e11d48', secondary: '#f43f5e', dark: true, glass: true, opacity: 0.6 },
-                'minimal': { primary: '#1f2937', secondary: '#4b5563', dark: false, glass: false, opacity: 0 },
+                // --- Nature ---
+                'ocean':      { primary: '#0ea5e9', secondary: '#0284c7', dark: true,  glass: true,  opacity: 0.4 },
+                'forest':     { primary: '#16a34a', secondary: '#15803d', dark: true,  glass: true,  opacity: 0.5 },
+                'sunset':     { primary: '#f97316', secondary: '#ea580c', dark: false, glass: false, opacity: 0 },
+                'lavender':   { primary: '#7c3aed', secondary: '#6d28d9', dark: true,  glass: true,  opacity: 0.3 },
+                'cherry':     { primary: '#e11d48', secondary: '#be123c', dark: true,  glass: false, opacity: 0 },
+                // --- Dark / Tech ---
+                'cyberpunk':  { primary: '#d946ef', secondary: '#a21caf', dark: true,  glass: true,  opacity: 0.6 },
+                'midnight':   { primary: '#1e3a5f', secondary: '#2563eb', dark: true,  glass: true,  opacity: 0.5 },
+                'carbon':     { primary: '#18181b', secondary: '#3f3f46', dark: true,  glass: false, opacity: 0 },
+                'slate':      { primary: '#334155', secondary: '#475569', dark: true,  glass: false, opacity: 0 },
+                'hacker':     { primary: '#052e16', secondary: '#16a34a', dark: true,  glass: true,  opacity: 0.7 },
+                // --- Minimal / Light ---
+                'minimal':    { primary: '#1f2937', secondary: '#4b5563', dark: false, glass: false, opacity: 0 },
+                'snow':       { primary: '#f8fafc', secondary: '#cbd5e1', dark: false, glass: false, opacity: 0 },
+                'sand':       { primary: '#d97706', secondary: '#b45309', dark: false, glass: false, opacity: 0 },
+                'rose':       { primary: '#f43f5e', secondary: '#e11d48', dark: false, glass: false, opacity: 0 },
+                // --- Brand-inspired ---
+                'odoo':       { primary: '#714b67', secondary: '#017e84', dark: false, glass: false, opacity: 0 },
+                'indigo':     { primary: '#4338ca', secondary: '#6366f1', dark: true,  glass: true,  opacity: 0.4 },
+                'teal':       { primary: '#0d9488', secondary: '#0f766e', dark: true,  glass: false, opacity: 0 },
+                'coral':      { primary: '#f43f5e', secondary: '#fb923c', dark: false, glass: false, opacity: 0 },
+                'plum':       { primary: '#9333ea', secondary: '#7e22ce', dark: true,  glass: true,  opacity: 0.3 },
+                'azure':      { primary: '#0369a1', secondary: '#0ea5e9', dark: true,  glass: true,  opacity: 0.4 },
             };
             if (presets[preset]) {
                 state.primaryColor = presets[preset].primary;

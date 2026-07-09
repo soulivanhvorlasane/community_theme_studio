@@ -31,6 +31,33 @@ export class ThemeStudioPanel extends Component {
             { id: 19, c1: '#881337', c2: '#ffffff', c3: '#ef4444' },
             { id: 20, c1: '#000000', c2: '#ffffff', c3: '#6b7280' },
         ];
+
+        this.presets = [
+            // Nature
+            { id: 'ocean',    label: 'Ocean',    primary: '#0ea5e9', secondary: '#0284c7' },
+            { id: 'forest',   label: 'Forest',   primary: '#16a34a', secondary: '#15803d' },
+            { id: 'sunset',   label: 'Sunset',   primary: '#f97316', secondary: '#ea580c' },
+            { id: 'lavender', label: 'Lavender', primary: '#7c3aed', secondary: '#6d28d9' },
+            { id: 'cherry',   label: 'Cherry',   primary: '#e11d48', secondary: '#be123c' },
+            // Dark / Tech
+            { id: 'cyberpunk', label: 'Cyberpunk', primary: '#d946ef', secondary: '#a21caf' },
+            { id: 'midnight',  label: 'Midnight',  primary: '#1e3a5f', secondary: '#2563eb' },
+            { id: 'carbon',    label: 'Carbon',    primary: '#18181b', secondary: '#3f3f46' },
+            { id: 'slate',     label: 'Slate',     primary: '#334155', secondary: '#475569' },
+            { id: 'hacker',    label: 'Hacker',    primary: '#052e16', secondary: '#16a34a' },
+            // Minimal / Light
+            { id: 'minimal',  label: 'Minimal',  primary: '#1f2937', secondary: '#4b5563' },
+            { id: 'snow',     label: 'Snow',     primary: '#f8fafc', secondary: '#cbd5e1' },
+            { id: 'sand',     label: 'Sand',     primary: '#d97706', secondary: '#b45309' },
+            { id: 'rose',     label: 'Rose',     primary: '#f43f5e', secondary: '#e11d48' },
+            // Brand-inspired
+            { id: 'odoo',   label: 'Odoo',   primary: '#714b67', secondary: '#017e84' },
+            { id: 'indigo', label: 'Indigo', primary: '#4338ca', secondary: '#6366f1' },
+            { id: 'teal',   label: 'Teal',   primary: '#0d9488', secondary: '#0f766e' },
+            { id: 'coral',  label: 'Coral',  primary: '#f43f5e', secondary: '#fb923c' },
+            { id: 'plum',   label: 'Plum',   primary: '#9333ea', secondary: '#7e22ce' },
+            { id: 'azure',  label: 'Azure',  primary: '#0369a1', secondary: '#0ea5e9' },
+        ];
     }
 
     setTab(tabName) {

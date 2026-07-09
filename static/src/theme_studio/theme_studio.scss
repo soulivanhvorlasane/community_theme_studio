@@ -447,3 +447,55 @@ body.o_dark_mode .o_control_panel .o_searchview {
 body.o_dark_mode .o_control_panel .o_searchview .o_searchview_input {
   color: #e0e0e0 !important;
 }
+
+// ── Preset Grid ────────────────────────────────────────────────────
+.o_theme_studio_panel {
+    .ts-preset-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        padding: 4px 0;
+    }
+
+    .ts-preset-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        background: #1e2030;
+        border: 1px solid #3a3d55;
+        border-radius: 8px;
+        padding: 8px 4px 6px;
+        cursor: pointer;
+        transition: border-color 0.2s ease, transform 0.15s ease;
+
+        &:hover {
+            border-color: #7c8aff;
+            transform: translateY(-2px);
+        }
+    }
+
+    .ts-preset-swatch-row {
+        display: flex;
+        width: 100%;
+        border-radius: 4px;
+        overflow: hidden;
+        height: 22px;
+    }
+
+    .ts-preset-swatch {
+        flex: 1;
+        height: 100%;
+    }
+
+    .ts-preset-label {
+        font-size: 0.65rem;
+        color: #9ca3af;
+        text-align: center;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+}
