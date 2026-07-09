@@ -301,6 +301,52 @@ export const themeStudioService = {
                 }
             `;
 
+            // Dropdown & Popup CSS (injected via JS to guarantee immediate application bypassing SCSS cache)
+            const popupCSS = `
+                /* Base Dropdowns */
+                .o_main_navbar .o-dropdown--menu,
+                .o_main_navbar .dropdown-menu,
+                .o_control_panel .dropdown-menu,
+                .o_search_bar_menu,
+                .o_dropdown_menu,
+                .o-autocomplete--dropdown-menu,
+                .o_popup_panel,
+                .o_dialog .modal-content,
+                .o_dialog .modal-header {
+                    background-color: ${p} !important;
+                    border: 1px solid rgba(0,0,0,0.1) !important;
+                    box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
+                    color: ${menuTextColor} !important;
+                }
+                /* Hover States */
+                .o_main_navbar .dropdown-item:hover,
+                .o_control_panel .dropdown-menu .dropdown-item:hover,
+                .o_search_bar_menu .dropdown-item:hover,
+                .o_popup_panel .dropdown-item:hover,
+                .o_popup_panel li:hover {
+                    background-color: ${s} !important;
+                    color: ${menuHoverText} !important;
+                }
+                /* Native Select inside search panels */
+                .o_control_panel .dropdown-menu select,
+                .o_search_bar_menu select {
+                    background-color: rgba(255, 255, 255, 0.05) !important;
+                    color: ${menuTextColor} !important;
+                }
+                .o_control_panel .dropdown-menu select option,
+                .o_search_bar_menu select option {
+                    background-color: ${p} !important;
+                    color: ${menuTextColor} !important;
+                }
+                .o_control_panel .dropdown-menu select option:checked,
+                .o_search_bar_menu select option:checked {
+                    background-color: ${s} !important;
+                    color: ${menuHoverText} !important;
+                }
+            `;
+
+            css += popupCSS;
+
             // Light navbar: subtle bottom border
             if (isLightNavbar) {
                 css += `.o_main_navbar { border-bottom: 1px solid rgba(0,0,0,0.08) !important; }`;
