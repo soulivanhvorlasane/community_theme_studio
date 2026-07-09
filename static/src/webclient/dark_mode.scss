@@ -164,6 +164,22 @@ body.o_dark_mode {
     .breadcrumb-item.active {
         color: var(--dm-text) !important;
     }
+
+    // Global secondary / light buttons fallback
+    .btn-light, .btn-secondary, .btn-outline-secondary {
+        background-color: var(--dm-bg-3) !important;
+        color: var(--dm-text) !important;
+        border-color: var(--dm-border) !important;
+        &:hover {
+            background-color: var(--dm-hover) !important;
+            color: #ffffff !important;
+        }
+        &.active {
+            background-color: var(--dm-accent) !important;
+            border-color: var(--dm-accent) !important;
+            color: #ffffff !important;
+        }
+    }
 }
 
 // ============================================================================
@@ -207,15 +223,24 @@ body.o_dark_mode {
         color: var(--dm-text) !important;
     }
 
-    // Action buttons in control panel
-    .o_control_panel_actions .btn,
-    .o_control_panel_breadcrumbs .btn {
+    // All buttons in control panel (Measures, view switchers, actions, etc.)
+    .o_control_panel .btn,
+    .o_control_panel .btn-light,
+    .o_control_panel .btn-secondary {
         color: var(--dm-text) !important;
         border-color: var(--dm-border) !important;
         background-color: var(--dm-bg-3) !important;
         transition: background-color 0.3s ease, color 0.3s ease;
+        
         &:hover {
             background-color: var(--dm-hover) !important;
+            color: #ffffff !important;
+        }
+
+        &.active, 
+        &.o_active {
+            background-color: var(--dm-accent) !important;
+            border-color: var(--dm-accent) !important;
             color: #ffffff !important;
         }
     }
@@ -725,7 +750,24 @@ body.o_dark_mode {
 }
 
 // ============================================================================
-// 9.  Scrollbar styling (Webkit / Firefox)
+// 9.  Graph View
+// ============================================================================
+body.o_dark_mode {
+
+    .o_graph_view,
+    .o_graph_renderer {
+        background-color: var(--dm-bg-1) !important;
+        color: var(--dm-text) !important;
+        
+        // Expose variables that Odoo's Chart.js wrapper might use in v18
+        --text-color: var(--dm-text);
+        --body-color: var(--dm-text);
+        --border-color: var(--dm-border);
+    }
+}
+
+// ============================================================================
+// 10. Scrollbar styling (Webkit / Firefox)
 // ============================================================================
 body.o_dark_mode {
 
