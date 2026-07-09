@@ -1,25 +1,22 @@
 /** @odoo-module **/
 
-import { patch } from "@web/core/utils/patch";
-import { themeStudioService } from "../theme_studio/theme_studio_service";
+import { registry } from "@web/core/registry";
 
-patch(themeStudioService, {
-    start(env) {
-        // Call the original start method
-        const service = super.start(env);
-        
+export const hoverMenuService = {
+    dependencies: ["theme_studio"],
+    start(env, { theme_studio }) {
         // Save a reference to the original applyLiveCss function
-        const originalApplyLiveCss = service.applyLiveCss;
+        const originalApplyLiveCss = theme_studio.applyLiveCss;
         
-        // Patch the applyLiveCss function
-        service.applyLiveCss = function () {
+        // Patch the instance method directly
+        theme_studio.applyLiveCss = function () {
             // Call original to update all the standard CSS and variables
-            originalApplyLiveCss.call(this);
+            originalApplyLiveCss.apply(this, arguments);
             
             // Apply the dynamic hover menu background based on the primary color
             document.documentElement.style.setProperty('--hover-menu-bg', this.primaryColor);
         };
-        
-        return service;
     }
-});
+};
+
+registry.category("services").add("hover_menu_service", hoverMenuService);
