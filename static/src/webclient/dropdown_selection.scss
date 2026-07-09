@@ -20,7 +20,9 @@
 
 /* Fallback for native select option checked states (where supported) */
 .o_control_panel .dropdown-menu select option:checked,
-.o_search_bar_menu select option:checked {
+.o_search_bar_menu select option:checked,
+select.o_add_custom_group_menu option:checked,
+select.o_add_custom_group_menu option:hover {
     background-color: var(--bs-secondary) !important;
     color: var(--o-menu-hover-text, #ffffff) !important;
 }

@@ -343,21 +343,26 @@ export const themeStudioService = {
                 }
                 /* Native Select inside search panels (fallback) */
                 .o_control_panel .dropdown-menu select,
-                .o_search_bar_menu select {
+                .o_search_bar_menu select,
+                select.o_add_custom_group_menu {
                     background-color: rgba(255, 255, 255, 0.05) !important;
                     color: ${menuTextColor} !important;
                 }
                 .o_control_panel .dropdown-menu select option,
-                .o_search_bar_menu select option {
+                .o_search_bar_menu select option,
+                select.o_add_custom_group_menu option {
                     background-color: ${p} !important;
                     color: ${menuTextColor} !important;
                 }
                 .o_control_panel .dropdown-menu select option:checked,
                 .o_search_bar_menu select option:checked,
+                select.o_add_custom_group_menu option:checked,
                 .o_control_panel .dropdown-menu select option:hover,
                 .o_search_bar_menu select option:hover,
+                select.o_add_custom_group_menu option:hover,
                 .o_control_panel .dropdown-menu select:focus option:checked,
-                .o_search_bar_menu select:focus option:checked {
+                .o_search_bar_menu select:focus option:checked,
+                select.o_add_custom_group_menu:focus option:checked {
                     background-color: ${s} !important;
                     color: ${menuHoverText} !important;
                 }
