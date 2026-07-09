@@ -33,6 +33,9 @@ export class ThemeStudioPanel extends Component {
         ];
 
         this.presets = [
+            // Odoo Brand
+            { id: 'community',  label: 'Community',  primary: '#875a7b', secondary: '#00a09d' },
+            { id: 'enterprise', label: 'Enterprise', primary: '#1a1c2c', secondary: '#e9a21b' },
             // Nature
             { id: 'ocean',    label: 'Ocean',    primary: '#0ea5e9', secondary: '#0284c7' },
             { id: 'forest',   label: 'Forest',   primary: '#16a34a', secondary: '#15803d' },

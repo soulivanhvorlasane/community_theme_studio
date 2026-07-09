@@ -1,36 +1,44 @@
-// Ensure theme-colors map is available by importing Bootstrap variables if needed
-// (Odoo usually injects this, but importing prevents undefined variable errors)
+// hover_menu.scss – Smooth hover transitions for Odoo 18 navbar
+//
+// --hover-menu-bg is not actively used here anymore; all runtime colors are
+// managed by theme_studio_live (injected <style>) via --o-menu-text etc.
+// This file keeps transitions and box-shadow as a compile-time baseline.
+
 @import "web/static/lib/bootstrap/scss/_variables";
 
 .o_main_navbar .o_menu_sections .o_nav_entry,
 .o_main_navbar .o_menu_sections .dropdown-toggle,
 .o_main_navbar .o_menu_brand,
 .o_main_navbar .o_menu_toggle {
-    transition: background-color 0.3s ease, background-image 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, background-image 0.3s ease;
 }
 
 .o_main_navbar .o_menu_sections .o_nav_entry:hover,
 .o_main_navbar .o_menu_sections .dropdown-toggle:hover,
 .o_main_navbar .o_menu_brand:hover,
 .o_main_navbar .o_menu_toggle:hover {
-    background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
-    background-image: linear-gradient(rgba(255,255,255,0.15), rgba(255,255,255,0.15)) !important;
+    background-color: var(--o-menu-hover-bg, var(--o-menu-secondary, map-get($theme-colors, 'primary'))) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
 }
 
-// Style the dropdown menus to match the primary theme color (applied globally since Odoo mounts them in the body)
+// Dropdown menus – box shadow baseline; bg is overridden by liveStyle at runtime
 .dropdown-menu {
-    background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
+    background-color: var(--o-menu-primary, map-get($theme-colors, 'primary')) !important;
     border: none !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    transition: background-color 0.3s ease;
 }
 
-.dropdown-menu .dropdown-item, 
+.dropdown-menu .dropdown-item,
 .dropdown-menu .dropdown-header {
-    color: #ffffff !important;
+    // Use the auto-contrast variable; liveStyle will always win but this
+    // ensures a correct default before JS runs.
+    color: var(--o-menu-text, #ffffff) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus {
-    background-color: var(--hover-menu-bg, map-get($theme-colors, 'primary')) !important;
-    background-image: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0.2)) !important;
+    background-color: var(--o-menu-hover-bg, var(--o-menu-secondary, map-get($theme-colors, 'primary'))) !important;
+    color: var(--o-menu-hover-text, #ffffff) !important;
 }

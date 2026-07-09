@@ -14,6 +14,7 @@ export const themeStudioService = {
             darkMode: false,
             glassmorphism: false,
             overlayOpacity: 0,
+            activePreset: null,   // tracks which preset is currently active
             
             // New Style dummy variables
             pFontSize: 1,
@@ -79,6 +80,22 @@ export const themeStudioService = {
             return `${parseInt(hex.substring(0, 2), 16)}, ${parseInt(hex.substring(2, 4), 16)}, ${parseInt(hex.substring(4, 6), 16)}`;
         }
 
+        /**
+         * Compute perceived luminance (0–255) of a hex color.
+         * Uses the standard relative luminance formula so we can decide
+         * whether the navbar needs light or dark text.
+         * @param {string} hex  e.g. '#f8fafc'
+         * @returns {number} 0 (black) – 255 (white)
+         */
+        function perceivedLuminance(hex) {
+            const rgb = hex.replace('#', '');
+            const r = parseInt(rgb.substring(0, 2), 16);
+            const g = parseInt(rgb.substring(2, 4), 16);
+            const b = parseInt(rgb.substring(4, 6), 16);
+            // Standard luminance weighting (ITU-R BT.601)
+            return 0.299 * r + 0.587 * g + 0.114 * b;
+        }
+
         function applyLiveCss() {
             // Update CSS variables instantly
             const root = document.documentElement;
@@ -91,6 +108,31 @@ export const themeStudioService = {
             root.style.setProperty('--bs-body-color', state.textColor);
             root.style.setProperty('--ts-status-color', state.statusColor);
             root.style.setProperty('--ts-text-status-color', state.textStatusColor);
+
+            // ----------------------------------------------------------------
+            // Auto-contrast: compute text color from navbar bg (primary) AND
+            // hover text from hover bg (secondary) INDEPENDENTLY.
+            // ITU-R BT.601 perceived luminance, threshold 186 (~73% of 255).
+            // This ensures every preset—including Coral's bright-orange hover—
+            // gets the right text color automatically.
+            // ----------------------------------------------------------------
+            const lum    = perceivedLuminance(state.primaryColor);
+            const secLum = perceivedLuminance(state.secondaryColor);
+            const isLightNavbar = lum    > 186;  // only Snow triggers this today
+            const isLightHover  = secLum > 186;  // e.g. Snow secondary #cbd5e1
+
+            const menuTextColor = isLightNavbar ? '#1e293b' : '#ffffff';
+            const menuHoverBg   = state.secondaryColor;
+            const menuHoverText = isLightHover  ? '#1e293b' : '#ffffff';
+
+            root.style.setProperty('--o-menu-text',       menuTextColor);
+            root.style.setProperty('--o-menu-hover-text', menuHoverText);
+            root.style.setProperty('--o-menu-hover-bg',   menuHoverBg);
+
+            // Body classes for SCSS scoping + CSS [data-preset] targeting
+            document.body.classList.toggle('preset-snow',         state.activePreset === 'snow');
+            document.body.classList.toggle('preset-light-navbar', isLightNavbar);
+            document.body.setAttribute('data-preset', state.activePreset || '');
 
             if (state.darkMode) {
                 root.setAttribute('data-bs-theme', 'dark');
@@ -168,12 +210,79 @@ export const themeStudioService = {
                     color: var(--ts-text-status-color) !important;
                 }
             `;
-            
+
+            // ----------------------------------------------------------------
+            // Per-preset auto-contrast: navbar + dropdown text.
+            // Rebuilt on every color/preset change → always accurate.
+            // isLightNavbar / menuTextColor / menuHoverText computed above.
+            // ----------------------------------------------------------------
+            css += `
+                .o_main_navbar {
+                    color: ${menuTextColor} !important;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                    --NavBar-entry-color: ${menuTextColor};
+                    --NavBar-entry-color--active: ${menuTextColor};
+                    --NavBar-entry-backgroundColor--hover: ${menuHoverBg};
+                    --NavBar-entry-backgroundColor--focus: ${menuHoverBg};
+                    --NavBar-entry-backgroundColor--active: ${menuHoverBg};
+                }
+                .o_main_navbar .o_menu_sections .o_nav_entry,
+                .o_main_navbar .o_menu_sections .dropdown-toggle,
+                .o_main_navbar .o_menu_brand,
+                .o_main_navbar .o_menu_toggle,
+                .o_main_navbar .o_menu_systray .o-dropdown > .o-dropdown--toggler {
+                    color: ${menuTextColor} !important;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                }
+                .o_main_navbar .o_menu_sections .o_nav_entry:hover,
+                .o_main_navbar .o_menu_sections .o_nav_entry:focus,
+                .o_main_navbar .o_menu_sections .dropdown-toggle:hover,
+                .o_main_navbar .o_menu_sections .dropdown-toggle:focus,
+                .o_main_navbar .o_menu_brand:hover,
+                .o_main_navbar .o_menu_toggle:hover {
+                    background-color: ${menuHoverBg} !important;
+                    color: ${menuHoverText} !important;
+                }
+                .o-dropdown--menu,
+                .dropdown-menu {
+                    background-color: ${state.primaryColor} !important;
+                    border: ${isLightNavbar ? '1px solid rgba(0,0,0,0.10)' : 'none'} !important;
+                    box-shadow: 0 4px 16px rgba(0,0,0,${isLightNavbar ? '0.10' : '0.30'}) !important;
+                    transition: background-color 0.3s ease;
+                }
+                .o-dropdown--menu .o-dropdown-item,
+                .o-dropdown--menu .dropdown-item,
+                .dropdown-menu .dropdown-item,
+                .dropdown-menu .dropdown-header {
+                    color: ${menuTextColor} !important;
+                    transition: background-color 0.3s ease, color 0.3s ease;
+                }
+                .o-dropdown--menu .o-dropdown-item:hover,
+                .o-dropdown--menu .o-dropdown-item:focus,
+                .o-dropdown--menu .dropdown-item:hover,
+                .o-dropdown--menu .dropdown-item:focus,
+                .dropdown-menu .dropdown-item:hover,
+                .dropdown-menu .dropdown-item:focus {
+                    background-color: ${menuHoverBg} !important;
+                    color: ${menuHoverText} !important;
+                }
+            `;
+
+            // Light navbar: subtle bottom border so it separates from content
+            if (isLightNavbar) {
+                css += `.o_main_navbar { border-bottom: 1px solid rgba(0,0,0,0.08) !important; }`;
+            }
+
             liveStyle.textContent = css;
         }
 
         function applyPreset(preset) {
             const presets = {
+                // --- Odoo Brand ---
+                // Community: classic Odoo Community purple + teal accent
+                'community':  { primary: '#875a7b', secondary: '#00a09d', dark: false, glass: false, opacity: 0 },
+                // Enterprise: deep navy + gold — premium feel with glass navbar
+                'enterprise': { primary: '#1a1c2c', secondary: '#e9a21b', dark: true,  glass: true,  opacity: 0.2 },
                 // --- Nature ---
                 'ocean':      { primary: '#0ea5e9', secondary: '#0284c7', dark: true,  glass: true,  opacity: 0.4 },
                 'forest':     { primary: '#16a34a', secondary: '#15803d', dark: true,  glass: true,  opacity: 0.5 },
@@ -200,6 +309,7 @@ export const themeStudioService = {
                 'azure':      { primary: '#0369a1', secondary: '#0ea5e9', dark: true,  glass: true,  opacity: 0.4 },
             };
             if (presets[preset]) {
+                state.activePreset = preset;           // ← track before applyLiveCss
                 state.primaryColor = presets[preset].primary;
                 state.secondaryColor = presets[preset].secondary;
                 state.darkMode = presets[preset].dark;

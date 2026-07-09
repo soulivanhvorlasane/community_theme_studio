@@ -1,0 +1,185 @@
+// ============================================================================
+// snow_theme.scss – SCSS-level contrast overrides for light-background presets
+//
+// HOW IT WORKS
+// ────────────
+// When the user picks a preset, theme_studio_service.js → applyLiveCss() does
+// three things:
+//   1. Sets CSS custom properties (--o-menu-text, --o-menu-hover-text, …)
+//   2. Injects a fully-rebuilt <style id="theme_studio_live"> block that
+//      contains all navbar + dropdown color rules for the active preset.
+//   3. Toggles body classes:
+//        body.preset-snow          → active when Snow is selected
+//        body.preset-light-navbar  → active whenever primary luminance > 186
+//      And sets:
+//        body[data-preset="snow"]  → CSS attribute selector alternative
+//
+// This SCSS file is an additional safety-net compiled at build time.
+// The dynamically injected CSS always wins (higher specificity + later
+// in cascade), so this file mainly guards against the brief first-paint
+// period before JS runs.
+//
+// ════════════════════════════════════════════════════════════════════
+// PRESET CONTRAST TABLE (ITU-R BT.601 perceived luminance / 255)
+// ════════════════════════════════════════════════════════════════════
+//  Preset      Primary     lum   text     Secondary   secLum  hover-text
+//  ─────────── ─────────── ───── ───────  ─────────── ──────  ──────────
+//  Community   #875a7b      107  white    #00a09d       86    white ✓
+//  Enterprise  #1a1c2c       29  white    #e9a21b      166    white ✓
+//  Ocean       #0ea5e9      128  white    #0284c7       83    white ✓
+//  Forest      #16a34a      111  white    #15803d       79    white ✓
+//  Sunset      #f97316      144  white    #ea580c      123    white ✓
+//  Lavender    #7c3aed       98  white    #6d28d9       81    white ✓
+//  Cherry      #e11d48       93  white    #be123c       73    white ✓
+//  Cyberpunk   #d946ef      133  white    #a21caf       74    white ✓
+//  Midnight    #1e3a5f       54  white    #2563eb       84    white ✓
+//  Carbon      #18181b       24  white    #3f3f46       61    white ✓
+//  Slate       #334155       63  white    #475569       86    white ✓
+//  Hacker      #052e16       31  white    #16a34a      111    white ✓
+//  Minimal     #1f2937       40  white    #4b5563       89    white ✓
+//  Snow        #f8fafc      250  DARK ★   #cbd5e1      211    DARK ★
+//  Sand        #d97706      135  white    #b45309      104    white ✓
+//  Rose        #f43f5e      121  white    #e11d48       93    white ✓
+//  Odoo        #714b67       90  white    #017e84       85    white ✓
+//  Indigo      #4338ca       76  white    #6366f1      101    white ✓
+//  Teal        #0d9488      106  white    #0f766e       83    white ✓
+//  Coral       #f43f5e      121  white    #fb923c      168    white ✓
+//  Plum        #9333ea      101  white    #7e22ce       81    white ✓
+//  Azure       #0369a1       81  white    #0ea5e9      128    white ✓
+// ════════════════════════════════════════════════════════════════════
+// Only Snow has lum > 186 → needs dark text everywhere.
+// ============================================================================
+
+// ------------------------------------------------------------------
+// 1.  Snow preset – explicit dark-text overrides
+//     body.preset-snow is toggled by JS when Snow is active
+// ------------------------------------------------------------------
+body.preset-snow {
+
+    // Navbar container
+    .o_main_navbar {
+        color: #1e293b !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+
+        // Odoo 18 internal CSS tokens
+        --NavBar-entry-color:                   #1e293b;
+        --NavBar-entry-color--active:           #1e293b;
+        --NavBar-entry-backgroundColor--hover:  #cbd5e1;
+        --NavBar-entry-backgroundColor--focus:  #cbd5e1;
+        --NavBar-entry-backgroundColor--active: #cbd5e1;
+    }
+
+    // All entry types
+    .o_main_navbar .o_menu_sections .o_nav_entry,
+    .o_main_navbar .o_menu_sections .dropdown-toggle,
+    .o_main_navbar .o_menu_brand,
+    .o_main_navbar .o_menu_toggle,
+    .o_main_navbar .o_menu_systray .o-dropdown > .o-dropdown--toggler {
+        color: #1e293b !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    // Hover / focus
+    .o_main_navbar .o_menu_sections .o_nav_entry:hover,
+    .o_main_navbar .o_menu_sections .o_nav_entry:focus,
+    .o_main_navbar .o_menu_sections .dropdown-toggle:hover,
+    .o_main_navbar .o_menu_sections .dropdown-toggle:focus,
+    .o_main_navbar .o_menu_brand:hover,
+    .o_main_navbar .o_menu_toggle:hover {
+        background-color: #cbd5e1 !important;   // Snow secondary
+        color: #1e293b !important;               // dark text on light hover
+    }
+
+    // Dropdown panel
+    .o-dropdown--menu,
+    .dropdown-menu {
+        background-color: #f8fafc !important;   // Snow primary (near-white)
+        border: 1px solid rgba(0, 0, 0, 0.10) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10) !important;
+        transition: background-color 0.3s ease;
+    }
+
+    // Dropdown items
+    .o-dropdown--menu .o-dropdown-item,
+    .o-dropdown--menu .dropdown-item,
+    .dropdown-menu .dropdown-item,
+    .dropdown-menu .dropdown-header {
+        color: #1e293b !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    // Dropdown item hover
+    .o-dropdown--menu .o-dropdown-item:hover,
+    .o-dropdown--menu .o-dropdown-item:focus,
+    .o-dropdown--menu .dropdown-item:hover,
+    .o-dropdown--menu .dropdown-item:focus,
+    .dropdown-menu .dropdown-item:hover,
+    .dropdown-menu .dropdown-item:focus {
+        background-color: #cbd5e1 !important;
+        color: #1e293b !important;
+    }
+}
+
+
+// ------------------------------------------------------------------
+// 2.  Generic light-navbar class (future-proof for any light preset)
+//     Uses CSS custom properties set by JS so it stays dynamic.
+// ------------------------------------------------------------------
+body.preset-light-navbar {
+
+    .o_main_navbar {
+        color: var(--o-menu-text, #1e293b) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+
+        // Wire Odoo 18 tokens to the runtime variable
+        --NavBar-entry-color:                   var(--o-menu-text, #1e293b);
+        --NavBar-entry-color--active:           var(--o-menu-text, #1e293b);
+        --NavBar-entry-backgroundColor--hover:  var(--o-menu-hover-bg, #e2e8f0);
+        --NavBar-entry-backgroundColor--focus:  var(--o-menu-hover-bg, #e2e8f0);
+        --NavBar-entry-backgroundColor--active: var(--o-menu-hover-bg, #e2e8f0);
+    }
+
+    .o_main_navbar .o_menu_sections .o_nav_entry,
+    .o_main_navbar .o_menu_sections .dropdown-toggle,
+    .o_main_navbar .o_menu_brand,
+    .o_main_navbar .o_menu_toggle,
+    .o_main_navbar .o_menu_systray .o-dropdown > .o-dropdown--toggler {
+        color: var(--o-menu-text, #1e293b) !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .o_main_navbar .o_menu_sections .o_nav_entry:hover,
+    .o_main_navbar .o_menu_sections .o_nav_entry:focus,
+    .o_main_navbar .o_menu_sections .dropdown-toggle:hover,
+    .o_main_navbar .o_menu_sections .dropdown-toggle:focus,
+    .o_main_navbar .o_menu_brand:hover,
+    .o_main_navbar .o_menu_toggle:hover {
+        background-color: var(--o-menu-hover-bg, #e2e8f0) !important;
+        color: var(--o-menu-hover-text, #1e293b) !important;
+    }
+
+    .o-dropdown--menu,
+    .dropdown-menu {
+        border: 1px solid rgba(0, 0, 0, 0.10) !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10) !important;
+    }
+
+    .o-dropdown--menu .o-dropdown-item,
+    .o-dropdown--menu .dropdown-item,
+    .dropdown-menu .dropdown-item,
+    .dropdown-menu .dropdown-header {
+        color: var(--o-menu-text, #1e293b) !important;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .o-dropdown--menu .o-dropdown-item:hover,
+    .o-dropdown--menu .o-dropdown-item:focus,
+    .o-dropdown--menu .dropdown-item:hover,
+    .o-dropdown--menu .dropdown-item:focus,
+    .dropdown-menu .dropdown-item:hover,
+    .dropdown-menu .dropdown-item:focus {
+        background-color: var(--o-menu-hover-bg, #e2e8f0) !important;
+        color: var(--o-menu-hover-text, #1e293b) !important;
+    }
+}
