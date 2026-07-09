@@ -384,6 +384,18 @@ export const themeStudioService = {
                 .o_web_client.o_dark_mode .o_calendar_header h5 {
                     color: #ffffff !important;
                 }
+
+                /* Sidebar Toggler Button Dark Mode Fix */
+                [data-bs-theme="dark"] .o_sidebar_toggler .btn-light,
+                .o_web_client.o_dark_mode .o_sidebar_toggler .btn-light {
+                    background-color: #2a2a2a !important;
+                    border-color: rgba(255, 255, 255, 0.1) !important;
+                    color: #ffffff !important;
+                }
+                [data-bs-theme="dark"] .o_sidebar_toggler .btn-light:hover,
+                .o_web_client.o_dark_mode .o_sidebar_toggler .btn-light:hover {
+                    background-color: #3a3a3a !important;
+                }
             `;
             css += calendarCSS;
 
