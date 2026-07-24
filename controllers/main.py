@@ -34,8 +34,13 @@ class ThemeStudioController(http.Controller):
         icp.set_param('theme_studio.text_color', text_color)
         if bg_image is not False:
             icp.set_param('theme_studio.bg_image', bg_image)
+        elif bg_image is False:
+            icp.set_param('theme_studio.bg_image', '')
+            
         if favicon is not False:
             icp.set_param('theme_studio.favicon', favicon)
+        elif favicon is False:
+            icp.set_param('theme_studio.favicon', '')
             
         return {'success': True}
 

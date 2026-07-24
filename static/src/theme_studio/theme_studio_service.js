@@ -569,6 +569,18 @@ export const themeStudioService = {
                         background-color: rgba(33, 37, 41, 0.9) !important;
                     }
                 `;
+            } else {
+                css += `
+                    .o_web_client, .oe_website_login_container {
+                        background-image: none !important;
+                    }
+                    .o_content, .o_view_controller {
+                        background-color: transparent !important;
+                    }
+                    [data-bs-theme="dark"] .o_content, [data-bs-theme="dark"] .o_view_controller {
+                        background-color: transparent !important;
+                    }
+                `;
             }
             
             // ── Badges: Primary bg + auto-contrast text ──
