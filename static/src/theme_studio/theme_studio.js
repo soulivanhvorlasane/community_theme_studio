@@ -94,7 +94,7 @@ export class ThemeStudioPanel extends Component {
     }
 
     onReset() {
-        this.ts.primaryColor = "#714B67";
+        this.ts.primaryColor = "#0ea5e9";
         this.ts.secondaryColor = "#017e84";
         this.ts.textColor = "#ffffff";
         this.ts.bgImage = false;

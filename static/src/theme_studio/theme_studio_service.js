@@ -8,7 +8,7 @@ export const themeStudioService = {
         const state = reactive({ 
             isOpen: false,
             // ── 3-Color Palette ──
-            primaryColor: "#714B67",    // navbar bg, dropdown bg, active states, badges
+            primaryColor: "#0ea5e9",    // navbar bg, dropdown bg, active states, badges
             secondaryColor: "#017e84", // hover bg, highlights, buttons, accents
             textColor: "#ffffff",       // labels, menu items, status text (auto-contrast)
             bgImage: false,
@@ -33,7 +33,7 @@ export const themeStudioService = {
         async function loadConfig() {
             try {
                 const config = await rpc("/theme_studio/get_config", {});
-                state.primaryColor = config.primary_color || '#714B67';
+                state.primaryColor = config.primary_color || '#0ea5e9';
                 state.secondaryColor = config.secondary_color || '#017e84';
                 state.textColor = config.text_color || '#ffffff';
                 state.bgImage = config.bg_image || false;

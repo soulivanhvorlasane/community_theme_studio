@@ -10,7 +10,7 @@ class ThemeStudioController(http.Controller):
     def get_config(self):
         icp = request.env['ir.config_parameter'].sudo()
         return {
-            'primary_color': icp.get_param('theme_studio.primary_color', '#714B67'),
+            'primary_color': icp.get_param('theme_studio.primary_color', '#0ea5e9'),
             'secondary_color': icp.get_param('theme_studio.secondary_color', '#017e84'),
             'bg_image': icp.get_param('theme_studio.bg_image', False),
             'dark_mode': icp.get_param('theme_studio.dark_mode', 'False') == 'True',
@@ -47,7 +47,7 @@ class ThemeStudioController(http.Controller):
     @http.route('/theme_studio/style.css', type='http', auth='public', cors='*')
     def style_css(self, **kw):
         icp = request.env['ir.config_parameter'].sudo()
-        primary = icp.get_param('theme_studio.primary_color', '#714B67')
+        primary = icp.get_param('theme_studio.primary_color', '#0ea5e9')
         secondary = icp.get_param('theme_studio.secondary_color', '#017e84')
         text_color = icp.get_param('theme_studio.text_color', '#ffffff')
         bg_image_b64 = icp.get_param('theme_studio.bg_image', '')

@@ -24,6 +24,12 @@
     color: var(--o-menu-text, #ffffff);
     transition: background-color 0.3s ease, color 0.3s ease;
 
+    .o_menu_sections,
+    .o_menu_systray,
+    .o_menu_brand {
+        background-color: transparent !important;
+    }
+
     // Wire Odoo 18 internal CSS tokens to our contrast variable
     --NavBar-entry-color:                   var(--o-menu-text, #ffffff);
     --NavBar-entry-color--active:           var(--o-menu-text, #ffffff);

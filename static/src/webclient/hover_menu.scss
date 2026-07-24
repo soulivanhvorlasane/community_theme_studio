@@ -17,7 +17,7 @@
 .o_main_navbar .o_menu_sections .dropdown-toggle:hover,
 .o_main_navbar .o_menu_brand:hover,
 .o_main_navbar .o_menu_toggle:hover {
-    background-color: var(--o-menu-hover-bg, var(--o-menu-secondary, map-get($theme-colors, 'primary'))) !important;
+    background-color: var(--o-menu-hover-bg, var(--o-menu-secondary, map-get($theme-colors, 'secondary'))) !important;
     color: var(--o-menu-hover-text, #ffffff) !important;
 }
 
@@ -39,6 +39,6 @@
 
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus {
-    background-color: var(--o-menu-hover-bg, var(--o-menu-secondary, map-get($theme-colors, 'primary'))) !important;
+    background-color: var(--o-menu-hover-bg, var(--o-menu-secondary, map-get($theme-colors, 'secondary'))) !important;
     color: var(--o-menu-hover-text, #ffffff) !important;
 }
