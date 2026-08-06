@@ -246,12 +246,23 @@ export const themeStudioService = {
             }
 
             // ── Transparent Navbar on Home Menu (Enterprise) ──
+            const homeMenuText = state.darkMode ? '#ffffff' : '#212529';
             css += `
                 body.o_home_menu_background .o_main_navbar,
                 .o_home_menu_background .o_main_navbar {
                     background-color: transparent !important;
                     border-color: transparent !important;
                     backdrop-filter: none !important;
+                    color: ${homeMenuText} !important;
+                }
+                body.o_home_menu_background .o_main_navbar .o_menu_sections .o_nav_entry,
+                body.o_home_menu_background .o_main_navbar .o_menu_sections .dropdown-toggle,
+                body.o_home_menu_background .o_main_navbar .o_menu_brand,
+                body.o_home_menu_background .o_main_navbar .o_menu_toggle,
+                body.o_home_menu_background .o_main_navbar .o_menu_systray .o-dropdown > .o-dropdown--toggler,
+                body.o_home_menu_background .o_main_navbar .o_menu_systray i,
+                body.o_home_menu_background .o_main_navbar .o_menu_systray span {
+                    color: ${homeMenuText} !important;
                 }
             `;
 
