@@ -245,7 +245,15 @@ export const themeStudioService = {
                 `;
             }
 
-
+            // ── Transparent Navbar on Home Menu (Enterprise) ──
+            css += `
+                body.o_home_menu_background .o_main_navbar,
+                .o_home_menu_background .o_main_navbar {
+                    background-color: transparent !important;
+                    border-color: transparent !important;
+                    backdrop-filter: none !important;
+                }
+            `;
 
             // ── Custom Filter Dialog CSS ──
             const customFilterCSS = `
