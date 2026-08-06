@@ -194,6 +194,10 @@
                                         <label>Secondary Color</label>
                                         <input type="color" class="ts-color-picker" t-att-value="tsState.secondaryColor" t-on-input="onSecondaryChange"/>
                                     </div>
+                                    <div class="ts-field">
+                                        <label>Text Color</label>
+                                        <input type="color" class="ts-color-picker" t-att-value="tsState.textColor" t-on-input="onTextChange"/>
+                                    </div>
                                     <div class="ts-field ts-field-switch">
                                         <label>Dark Mode</label>
                                         <div class="form-check form-switch m-0">

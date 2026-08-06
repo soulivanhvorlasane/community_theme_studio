@@ -35,9 +35,10 @@ export class ThemeStudioPanel extends Component {
 
         // Preset swatches for the Theme tab (3 colors shown)
         this.presets = [
+            // Default
+            { id: 'default', label: 'Default', primary: '#ffffff', secondary: '#875a7b', text: '#000000' },
             // Odoo Brand
             { id: 'community',  label: 'Community',  primary: '#875a7b', secondary: '#00a09d', text: '#ffffff' },
-            { id: 'enterprise', label: 'Enterprise', primary: '#2563eb', secondary: '#1d4ed8', text: '#ffffff' },
             // Nature
             { id: 'ocean',      label: 'Ocean',      primary: '#0ea5e9', secondary: '#0284c7', text: '#ffffff' },
             { id: 'forest',     label: 'Forest',     primary: '#16a34a', secondary: '#15803d', text: '#ffffff' },
@@ -94,9 +95,9 @@ export class ThemeStudioPanel extends Component {
     }
 
     onReset() {
-        this.ts.primaryColor = "#0ea5e9";
-        this.ts.secondaryColor = "#017e84";
-        this.ts.textColor = "#ffffff";
+        this.ts.primaryColor = "#ffffff";
+        this.ts.secondaryColor = "#875a7b";
+        this.ts.textColor = "#000000";
         this.ts.bgImage = false;
         this.ts.darkMode = false;
         this.ts.glassmorphism = false;
@@ -124,6 +125,10 @@ export class ThemeStudioPanel extends Component {
 
     onSecondaryChange(ev) {
         this.ts.secondaryColor = ev.target.value;
+    }
+
+    onTextChange(ev) {
+        this.ts.textColor = ev.target.value;
     }
 
     // ── File uploads ──
@@ -187,16 +192,19 @@ export class ThemeStudioPanel extends Component {
             const panel = document.querySelector('.o_theme_studio_panel');
             if (!panel) return;
 
+            const isValidHex = (hex) => typeof hex === 'string' && /^#[0-9A-F]{6}$/i.test(hex);
+
             // Style tab: 3 color inputs (class: ts-color-input)
             const styleInputs = panel.querySelectorAll('.ts-color-input');
-            if (styleInputs[0]) styleInputs[0].value = this.tsState.primaryColor;
-            if (styleInputs[1]) styleInputs[1].value = this.tsState.secondaryColor;
-            if (styleInputs[2]) styleInputs[2].value = this.tsState.textColor;
+            if (styleInputs[0] && isValidHex(this.tsState.primaryColor)) styleInputs[0].value = this.tsState.primaryColor;
+            if (styleInputs[1] && isValidHex(this.tsState.secondaryColor)) styleInputs[1].value = this.tsState.secondaryColor;
+            if (styleInputs[2] && isValidHex(this.tsState.textColor)) styleInputs[2].value = this.tsState.textColor;
 
-            // Theme tab: 2 color pickers (class: ts-color-picker)
+            // Theme tab: 3 color pickers (class: ts-color-picker)
             const themeInputs = panel.querySelectorAll('.ts-color-picker');
-            if (themeInputs[0]) themeInputs[0].value = this.tsState.primaryColor;
-            if (themeInputs[1]) themeInputs[1].value = this.tsState.secondaryColor;
+            if (themeInputs[0] && isValidHex(this.tsState.primaryColor)) themeInputs[0].value = this.tsState.primaryColor;
+            if (themeInputs[1] && isValidHex(this.tsState.secondaryColor)) themeInputs[1].value = this.tsState.secondaryColor;
+            if (themeInputs[2] && isValidHex(this.tsState.textColor)) themeInputs[2].value = this.tsState.textColor;
 
             // Checkboxes: dark mode & glassmorphism
             const checkboxes = panel.querySelectorAll('.form-check-input[type="checkbox"]');

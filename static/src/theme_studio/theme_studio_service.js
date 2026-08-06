@@ -8,9 +8,9 @@ export const themeStudioService = {
         const state = reactive({ 
             isOpen: false,
             // ── 3-Color Palette ──
-            primaryColor: "#0ea5e9",    // navbar bg, dropdown bg, active states, badges
-            secondaryColor: "#017e84", // hover bg, highlights, buttons, accents
-            textColor: "#ffffff",       // labels, menu items, status text (auto-contrast)
+            primaryColor: "#ffffff",    // navbar bg, dropdown bg, active states, badges
+            secondaryColor: "#875a7b", // hover bg, highlights, buttons, accents
+            textColor: "#000000",       // labels, menu items, status text (auto-contrast)
             bgImage: false,
             favicon: false,
             darkMode: false,
@@ -33,9 +33,9 @@ export const themeStudioService = {
         async function loadConfig() {
             try {
                 const config = await rpc("/theme_studio/get_config", {});
-                state.primaryColor = config.primary_color || '#0ea5e9';
-                state.secondaryColor = config.secondary_color || '#017e84';
-                state.textColor = config.text_color || '#ffffff';
+                state.primaryColor = config.primary_color || '#ffffff';
+                state.secondaryColor = config.secondary_color || '#875a7b';
+                state.textColor = config.text_color || '#000000';
                 state.bgImage = config.bg_image || false;
                 state.favicon = config.favicon || false;
                 state.darkMode = config.dark_mode;
@@ -245,159 +245,7 @@ export const themeStudioService = {
                 `;
             }
 
-            // ── Calendar CSS ──
-            const calendarCSS = `
-                /* Date Picker Dropdown (.o_datetime_picker) */
-                .o_datetime_picker .o_datetime_picker_header {
-                    background-color: ${p} !important;
-                    color: ${menuHoverText} !important;
-                    border-radius: 8px 8px 0 0;
-                }
-                .o_datetime_picker .o_datetime_picker_header .btn, 
-                .o_datetime_picker .o_datetime_picker_header .o_datetime_button {
-                    color: ${menuHoverText} !important;
-                }
-                .o_datetime_picker .o_datetime_picker_header .btn:hover,
-                .o_datetime_picker .o_datetime_picker_header .o_datetime_button:hover {
-                    background-color: rgba(255, 255, 255, 0.2) !important;
-                }
-                .o_datetime_picker .o_date_item_cell {
-                    border: 1px solid rgba(128, 128, 128, 0.1) !important;
-                    border-radius: 6px !important;
-                    transition: all 0.3s ease;
-                }
-                .o_datetime_picker .o_date_item_cell:hover:not(.o_out_of_range) {
-                    background-color: rgba(${sRgb}, 0.15) !important;
-                    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                }
-                .o_datetime_picker .o_selected:not(.o_select_start):not(.o_select_end) {
-                    background-color: rgba(${sRgb}, 0.3) !important;
-                }
-                .o_datetime_picker .o_highlighted:before,
-                .o_datetime_picker .o_select_start:before,
-                .o_datetime_picker .o_select_end:before {
-                    background-color: ${s} !important;
-                    box-shadow: 0 2px 8px rgba(${sRgb}, 0.4) !important;
-                    border: none !important;
-                }
-                .o_datetime_picker .o_select_start,
-                .o_datetime_picker .o_select_end,
-                .o_datetime_picker .o_highlighted {
-                    color: ${menuHoverText} !important;
-                }
-                .o_datetime_picker .o_current:not(.o_select_start):not(.o_select_end):not(.o_highlighted):before {
-                    box-shadow: inset 0 0 0 2px ${s} !important;
-                    background-color: transparent !important;
-                }
 
-                /* Main App Calendar View */
-                .o_calendar_view .fc-theme-standard th, 
-                .o_calendar_view .fc-theme-standard td, 
-                .o_calendar_view .fc-theme-standard .fc-scrollgrid {
-                    border-color: rgba(128, 128, 128, 0.2) !important;
-                }
-                .o_calendar_view .fc-header-toolbar {
-                    background-color: ${p} !important;
-                    color: ${menuHoverText} !important;
-                    padding: 10px;
-                    border-radius: 8px;
-                }
-                .o_calendar_view .fc-header-toolbar .fc-toolbar-title, 
-                .o_calendar_view .fc-header-toolbar .fc-button {
-                    color: ${menuHoverText} !important;
-                }
-                .o_calendar_view .fc-header-toolbar .fc-button {
-                    background-color: rgba(255, 255, 255, 0.2) !important;
-                    border: none !important;
-                }
-                .o_calendar_view .fc-header-toolbar .fc-button:hover {
-                    background-color: rgba(255, 255, 255, 0.3) !important;
-                }
-                .o_calendar_view .fc-day-today {
-                    background-color: rgba(${sRgb}, 0.05) !important;
-                    box-shadow: inset 0 0 0 2px ${s} !important;
-                }
-                .o_calendar_view .fc-event {
-                    background-color: ${s} !important;
-                    border-color: ${s} !important;
-                    color: ${menuHoverText} !important;
-                }
-                .o_calendar_view .fc-event .fc-bg {
-                    background-color: transparent !important;
-                }
-                /* Ensure Light Mode (Normal) has explicit backgrounds */
-                .o_datetime_picker {
-                    background-color: #ffffff !important;
-                    color: #222222 !important;
-                }
-                .o_datetime_picker .o_date_item_cell {
-                    background-color: #f9f9f9 !important;
-                    border: 1px solid #dddddd !important;
-                }
-                .o_calendar_view {
-                    background-color: #ffffff !important;
-                    color: #222222 !important;
-                }
-                .o_calendar_view .fc-day {
-                    background-color: #f9f9f9 !important;
-                }
-                .o_calendar_view .fc-event-main, 
-                .o_calendar_view .fc-event-title {
-                    color: ${menuHoverText} !important;
-                }
-
-                /* Ensure dark backgrounds ONLY apply in Dark Mode */
-                [data-bs-theme="dark"] .o_datetime_picker,
-                .o_web_client.o_dark_mode .o_datetime_picker {
-                    background-color: #1e1e1e !important;
-                    color: #dddddd !important;
-                    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-                }
-                [data-bs-theme="dark"] .o_datetime_picker .o_day_of_week_cell,
-                .o_web_client.o_dark_mode .o_datetime_picker .o_day_of_week_cell,
-                [data-bs-theme="dark"] .o_datetime_picker .o_date_item_cell,
-                .o_web_client.o_dark_mode .o_datetime_picker .o_date_item_cell {
-                    background-color: #2a2a2a !important;
-                    color: #dddddd !important;
-                    border: 1px solid rgba(255, 255, 255, 0.05) !important;
-                }
-                [data-bs-theme="dark"] .o_calendar_view,
-                .o_web_client.o_dark_mode .o_calendar_view {
-                    background-color: #1e1e1e !important;
-                    color: #dddddd !important;
-                }
-                [data-bs-theme="dark"] .o_calendar_view .fc-theme-standard th, 
-                [data-bs-theme="dark"] .o_calendar_view .fc-theme-standard td, 
-                [data-bs-theme="dark"] .o_calendar_view .fc-theme-standard .fc-scrollgrid,
-                .o_web_client.o_dark_mode .o_calendar_view .fc-theme-standard th, 
-                .o_web_client.o_dark_mode .o_calendar_view .fc-theme-standard td, 
-                .o_web_client.o_dark_mode .o_calendar_view .fc-theme-standard .fc-scrollgrid {
-                    border-color: rgba(255, 255, 255, 0.1) !important;
-                }
-                [data-bs-theme="dark"] .o_calendar_view .fc-day-today,
-                .o_web_client.o_dark_mode .o_calendar_view .fc-day-today {
-                    background-color: #2a2a2a !important;
-                }
-                [data-bs-theme="dark"] .o_calendar_view h5,
-                .o_web_client.o_dark_mode .o_calendar_view h5,
-                [data-bs-theme="dark"] .o_calendar_header h5,
-                .o_web_client.o_dark_mode .o_calendar_header h5 {
-                    color: #ffffff !important;
-                }
-
-                /* Sidebar Toggler Button Dark Mode Fix */
-                [data-bs-theme="dark"] .o_sidebar_toggler .btn-light,
-                .o_web_client.o_dark_mode .o_sidebar_toggler .btn-light {
-                    background-color: #2a2a2a !important;
-                    border-color: rgba(255, 255, 255, 0.1) !important;
-                    color: #ffffff !important;
-                }
-                [data-bs-theme="dark"] .o_sidebar_toggler .btn-light:hover,
-                .o_web_client.o_dark_mode .o_sidebar_toggler .btn-light:hover {
-                    background-color: #3a3a3a !important;
-                }
-            `;
-            css += calendarCSS;
 
             // ── Custom Filter Dialog CSS ──
             const customFilterCSS = `
@@ -860,6 +708,8 @@ export const themeStudioService = {
         // darkMode is always set to false when applying a preset.
         function applyPreset(preset) {
             const presets = {
+                // --- Default ---
+                'default':    { primary: '#ffffff', secondary: '#875a7b', text: '#000000', glass: false, opacity: 0 },
                 // --- Odoo Brand ---
                 'community':  { primary: '#875a7b', secondary: '#00a09d', text: '#ffffff', glass: false, opacity: 0 },
                 'enterprise': { primary: '#2563eb', secondary: '#1d4ed8', text: '#ffffff', glass: false, opacity: 0 },
