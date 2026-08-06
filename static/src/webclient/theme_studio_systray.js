@@ -17,6 +17,7 @@ ThemeStudioSystray.template = "community_theme_studio.ThemeStudioSystray";
 
 export const systrayItem = {
     Component: ThemeStudioSystray,
+    isDisplayed: (env) => Boolean(env.debug),
 };
 
 registry.category("systray").add("ThemeStudio", systrayItem, { sequence: 10 });
